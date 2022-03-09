@@ -56,10 +56,10 @@ def main():
         decrypt(argv[2], int(argv[3]))
     elif(argv[1] == "brute"):
         brute(argv[2])
-    elif(argv[1] == "freq"):
-        freq(argv[2])
-    elif(argv[1] == "brfreq"):
-        brfreq(argv[2])
+#    elif(argv[1] == "freq"):
+#        freq(argv[2])
+#    elif(argv[1] == "brfreq"):
+#        brfreq(argv[2])
 
 if __name__ == '__main__':
     main()
