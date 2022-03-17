@@ -19,7 +19,16 @@ def known_N(s: str, n: int, sep=" "):
 
         print(ans[i-1])
         flag = True
-
+    print(n)
+    ans1 = ''
+    for i in range(len(ans[0])):
+        for j in range(len(ans)):
+            try:
+                if(ans[j][i] != sep):
+                    ans1 += ans[j][i]
+            except:
+                continue
+    print(ans1)
 def unknown_N(s: str):
     for i in range(2, len(s)):
         known_N(s, i)
