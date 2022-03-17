@@ -19,7 +19,13 @@ def decrypt(s: str, k: str):
     k *= (x + 1)
     ans = []
     for i in range(len(s)):
-        ans.append(list(cip_t['a'].values())[list(cip_t[k[i]].values()).index(s[i])])
+        try:
+            r0 = list(cip_t[k[i]].values()).index(s[i])
+            l = list(cip_t['a'].values())[r0]
+            ans.append(l)
+        except:
+            ans.append(s[i])
+            
     return "".join(ans)
 
 #def brute(s: str):
