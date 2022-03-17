@@ -1,10 +1,10 @@
 from sage.all import *
 from time import time, sleep
 from pylab import plot, show
-def PollardP(n):
+def PollardP(n, z):
     while(True):
         a = randint(2, n)
-        for i in range(1, 100):
+        for i in range(1, pow(2, z)):
             a = pow(a, i, n)
             if(a-1 == 0):
                 break
@@ -31,12 +31,13 @@ def time_check(nbit, n):
     
 if __name__ == "__main__":
     n = int(input("factor what? "))
-    print(PollardP(n))
-    t = []
-    for i in range(15):
-        t.append(time_check(20 + i, 10))
-        print("5 sec to think")
-        sleep(5)
-    x = plot(range(20, 35), t)
-    show()
+    nbits = int(input("how many bits to factorial? "))
+    print(PollardP(n, nbits))
+#    t = []
+#    for i in range(15):
+#        t.append(time_check(20 + i, 10))
+#        print("5 sec to think")
+#        sleep(5)
+#    x = plot(range(20, 35), t)
+#    show()
 
