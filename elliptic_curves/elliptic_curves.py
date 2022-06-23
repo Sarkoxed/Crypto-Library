@@ -5,8 +5,8 @@ class EC:
     _K = RR
 
     def __init__(self, a1 = 0, a2 = 0, a3 = 0, a4 = 0, a6 = 0, K = RR):
-        _K = K
-        _a1, _a2, _a3, _a4, _a6 = K(a1), K(a2), K(a3), K(a4), K(a6)
+        self._K = K
+        self._a1, self._a2, self._a3, self._a4, self._a6 = K(a1), K(a2), K(a3), K(a4), K(a6)
         if self.is_singular():
             raise Exception("Singular Curve")
 
@@ -27,16 +27,16 @@ class EC:
         x, y, z = self._K(t[0]), self._K(t[1]), self._K(t[2])
         a1, a2, a3, a4, a6 = self.tup()
         
-        p = ECPoint(x, y, z, E)
+        p = ECPoint(x, y, z, self)
         if not self.isonCurve(p):
             return None
         return p
     
-    def isonCurve(self, x, y):
+    def isonCurve(self, P):
         if(P.is_infinity()):
             return True
-
-        y, x = P.x, P.y
+ 
+        x, y = P._x, P._y
         a1, a2, a3, a4, a6 = P._EC.tup()
         return y**2 + a1 * x * y + a3 * y == x**3 + a2 * x**2 + a4 * x + a6
 
@@ -63,34 +63,76 @@ class EC:
 #        if leg_sym == 1:
 #            n += 2
 #    return n
-
-    def get_naive_order(self, P: ECPoint):
+    
+    def get_some_point(self):
         K = self._K
+        while True:
+            i = K.random_element()
+            y_coord_sq = K(i**3 + self._a4 *i + self._a6)
+            leg_sym = y_coord_sq ** ((K.order() - 1)//2)
+
+            if(leg_sym == 1):
+                y = K(y_coord_sq).nth_root(2)
+                P = ECPoint(i, y, 1, self)
+                return P
+ 
+
+    def get_naive_order(self, P):
+        K = self._K
+            
+        a1, a2, a3, a4, a6 = self.tup()
+        if(K.order() % 4 == 3 and a4 != 0  and all(x == 0 for x in [a1,a2,a3,a6])):
+            return K.order() + 1
+
+
         if(P.is_infinity()):
-            for i in range(K.order()):
-                y_coord_sq = K(i**3 + self._a4 *i + self._a6)
-                leg_sym = pow(y_coord_sq, (K.order() - 1)//2, K.order())
-    
-                if(leg_sym == 1):
-                    y = int(K(y_coord_sq).nth_root(2))
-                    P = ECPoint(i, y, 1, self)
-                    break
-    
+            P = self.get_some_point()
+               
         for _ in range(-2*floor(sqrt(K.order())), 2*ceil(sqrt(K.order()))):
             order = K.order() + 1 + _
-            if((n*P).is_infinity()):
+            if((order*P).is_infinity()):
                 return order
 
 
+    @staticmethod
+    def rec_ord(a, b, p, n):
+        if(n == 1):
+            return a + b
+        elif(n == 2):
+            return a**2 + b**2
 
+        t0 = a + b
+        t1 = p
+        
+        a, b = 2, t0
+        for i in range(n-1):
+            a, b = b, t0 * b - p * a
+        return b
+
+    @staticmethod
+    def power_ord(a, b, n):
+        return a**n + b**n
+        
+
+    def get_order(self, P):
+        n = self._K.degree()
+        p = self._K.base().order()
+        e = EC(*self.tup(), K=GF(p))
+        e0 = e.get_naive_order(ECPoint(0,1,0, GF(p)))
+        t = p + 1 - e0
+        a, b = (t + sqrt(t**2 - 4*p))/2, (t - sqrt(t**2 - 4 * p))/2
+        tn1 = self.rec_ord(a, b, p, n)
+        tn2 = self.power_ord(a, b, n)
+        assert tn1 == tn2
+        return tn1 + 1 + p**n
 
 class ECPoint:
     _x, _y, _z = 0, 0, 0
-    _EC = EC()
+    _EC = None
     
     def __init__(self, x, y, z, E: EC):
-        _x, _y, _z = x, y, z
-        _E = EC
+        self._x, self._y, self._z = x, y, z
+        self._EC = E
     
     def x(self):
         return self._x
@@ -106,10 +148,10 @@ class ECPoint:
             x, y = (self._x, -self._y - self._EC._a1 * self._x - self._EC._a3)
             return ECPoint(x, y, 1, self._EC) 
     
-    def __add__(self, Q: ECPoint):
-        if(self.is_infinity() == 0):
+    def __add__(self, Q):
+        if(self.is_infinity()):
             return Q
-        elif(Q.is_infinity() == 0):
+        elif(Q.is_infinity()):
             return self
         if(Q == -self):
             return ECPoint(0, 1, 0, self._EC)
@@ -127,27 +169,27 @@ class ECPoint:
         y3 = -(l+a1) * x3 - nu - a3
         return  ECPoint(x3, y3, 1, self._EC)
     
-    def __sub__(self, Q: ECPoint):
+    def __sub__(self, Q):
         Q = -Q
         return self + Q
     
-    def double_and_add(self, n: int):
-        if(n < 0):
-            self = -self
-            n = -n
-        if(n == 0):
-            return ECPoint(0,1,0, self._EC)
-        Q = ECPoint(0, 1, 0, self._EC)
-        while(n > 1):
-            if(n & 1):
-                Q = self + Q
-                self = self + self
-                n = (n-1)//2
-            else:
-                self = self + self 
-                n //= 2
-        #print(P, Q, n)
-        return self + Q
+#    def double_and_add(self, n: int):
+#        if(n < 0):
+#            self = -self
+#            n = -n
+#        if(n == 0):
+#            return ECPoint(0,1,0, self._EC)
+#        Q = ECPoint(0, 1, 0, self._EC)
+#        while(n > 1):
+#            if(n & 1):
+#                Q = self + Q
+#                self = self + self
+#                n = (n-1)//2
+#            else:
+#                self = self + self 
+#                n //= 2
+#        #print(P, Q, n)
+#        return self + Q
     
     @staticmethod
     def ternary(n):
@@ -180,7 +222,7 @@ class ECPoint:
             n = -n
         n = [int(x) for x in bin(n)[2:][::-1]]
         n = self.ternary(n)
-        Q = ECPoint(0, 1, 0, self._EC)
+        q = ECPoint(0, 1, 0, self._EC)
         for i in range(len(n)):
             if(n[i] == -1):
                 q = q - self 
@@ -192,7 +234,9 @@ class ECPoint:
                 self = self + self 
         return q
 
-    def naive_ecdlp(self, Q: ECPoint) -> int:
+    __rmul__ = __mul__
+
+    def naive_ecdlp(self, Q) -> int:
         n = self._EC.get_naive_order(self)
         print(n)
         for i in range(n):
