@@ -1,3 +1,7 @@
 *.out
 __pycache__/
 pedik.cpp
+check.py
+.gitignore
+ntrumls.py
+get_sign_functions.py
