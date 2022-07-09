@@ -1,33 +1,97 @@
 #include "LLL.hpp"
 #include <iostream>
 #include "../lattice_attacks.hpp"
+#include <chrono>
+ 
+int power(int x, int y, int p){
+    int res = 1;
+    while (y > 0) {
+        if (y % 2 == 1)
+            res = (res * x) % p;
+        y = y >> 1;
+        x = (x * x) % p;
+    }
+    return res % p;
+}
+int lift(int x, int mod){
+    if(x > mod/2){
+        return x - mod;
+    }
+    return x;
+}
+ 
 int main(){
-    int dim = 6;
-    //std::cin >> dim;
-    Eigen::MatrixXd base(dim, dim);
-    base << 20, 51, 35, 59, 73, 73, 14, 48, 33, 61, 47, 83, 95, 41, 48, 84, 30, 45, 0, 42, 74, 79, 20, 21, 6, 41, 49, 11, 70, 67, 23, 36, 6, 1, 46, 4;
-    //base << 2, 2, -4, 0, -2, 0, 17, 1, -1, 5, 0, 43, 1, -1, 1, 1, -1, -2, 1, 5, 1, -3, 3, -1, -1;
+    int dim;
+    std::cin >> dim;
+    //int q;
+    //std::cin >> q;
+    Eigen::MatrixXi bas = Eigen::MatrixXi::Random(dim, dim);
+    bas = bas.unaryExpr([](const int x) { return lift(x % 10000, 10000); });
+    while(bas.cast<double>().determinant() == 0){
+        bas.setRandom();
+        bas = bas.unaryExpr([](const int x) { return lift(x % 10000, 10000); });
+    }
+    Eigen::MatrixXd base = bas.cast<double>();
     //for(int i = 0; i < dim; i++){
     //    for(int j = 0; j < dim; j++){
-    //        std::cin >> base(i, j);
+    //        base(i, j) = power(i+1 + dim, j+1, q); 
     //    }
     //}
+    //base.transposeInPlace();
+
+    double c = base.col(0).norm();
+    int k = 0;
+    Eigen::VectorXd v = base.col(0);
+    for(int i = 1; i < dim; i++){
+        if(base.col(i).norm() < c){
+            c = base.col(i).norm();
+            k = i;
+            v = base.col(i);
+        }
+    }
+
+    std::cout << "Shortest vector:   " << v.transpose() << std::endl;
+    std::cout << "It's length:       " << c << std::endl << std::endl;
+
 
     double delta, eta;
     //std::cin >> delta >> eta;
-    delta = 0.99;
+    delta = 0.75;
     eta = 0.5;
-    base.transposeInPlace();
-    std::cout << base << std::endl << std::endl;
+//    std::cout << base << std::endl << std::endl;
+    std::cout << "Hadamard Base: " << HadamardRatio(base) << std::endl;
+
+    std::chrono::steady_clock::time_point begin, end;
+    begin = std::chrono::steady_clock::now();
     LLL(base, delta, eta);
-    std::cout << base << std::endl;
-    std::cout << HadamardRatio(base) << std::endl;
-    std::cout << LLL_check(base, delta, eta) << std::endl;
+    end = std::chrono::steady_clock::now();
+    
+    std::cout << "Time Elapsed: " << std::chrono::duration_cast<std::chrono::microseconds>(end-begin).count()/1000000.0 << " mcs" << std::endl;
+
+//    std::cout << base << std::endl;
+    std::cout << "Hadamard Reduced: " << HadamardRatio(base) << std::endl;
     if(!LLL_check(base, delta, eta)){
         std::cout << "FUCKING WHAT THE FUCK" << std::endl;
     }
-    std::cout << "Shortest vector:   " << base.col(0).norm() << std::endl;
+
     std::cout << "Gaussian Expected: " << GaussianExpectedShortestLength(base) << std::endl;
     std::cout << "Gaussian Appr:     " << GaussianExpectedAppr(base) << std::endl;
+
+    c = base.col(0).norm();
+    k = 0;
+    v = base.col(0);
+    for(int i = 1; i < dim; i++){
+        if(base.col(i).norm() < c){
+            c = base.col(i).norm();
+            k = i;
+            v = base.col(i);
+        }
+    }
+
+    std::cout << "Shortest vector:   " << v.transpose() << std::endl;
+    std::cout << "It's number:       " << k + 1 << std::endl;
+    std::cout << "It's length:       " << c << std::endl << std::endl;
+
+    std::cout << "Correct reduction?: " << LLL_check(base, delta, eta) << std::endl;
     return 0;
 }

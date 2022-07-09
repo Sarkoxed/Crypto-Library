@@ -1,5 +1,11 @@
 from sage.all import *
 from copy import copy
+from time import time
+
+def GaussianExpected(base):
+    a = pow(gamma(1 + len(base)/2) * abs(Matrix(base).det()), 1/len(base)) / sqrt(pi)
+    b = sqrt(len(base)/(2 * pi * e)) * pow(abs(Matrix(base).det()), 1/ len(base))
+    return a, b
 
 def LLL_check(base, delta=3/4, eta=1/2):
     w = [vector(x) for x in Matrix(base).gram_schmidt()[0]]
@@ -7,9 +13,12 @@ def LLL_check(base, delta=3/4, eta=1/2):
 #    print(mu)
     for i in range(len(mu)):
         for j in range(len(mu)):
-            assert i == j or abs(mu[i][j]) <= eta
+            if(not(i == j or abs(mu[i][j]) <= eta)):
+                return False
     for i in range(1, len(base)):
-        assert w[i].norm()**2 >= (delta - mu[i][i-1]**2) * w[i-1].norm()**2
+        if(not(w[i].norm()**2 >= (delta - mu[i][i-1]**2) * w[i-1].norm()**2)):
+            return False
+    return True
 
 def HadamardRatio(v):
     m = Matrix(v)
@@ -101,31 +110,50 @@ def swap(k, kmax, mu, bs, base, orth):
     return
 
 if __name__ == "__main__":
-#    dim = 6
-#    v1 = vector([20, 51, 35, 59 ,73, 73])
-#    v2 = vector([14, 48, 33, 61, 47, 83])
-#    v3 = vector([95, 41, 48, 84, 30, 45])
-#    v4 = vector([0, 42, 74, 79, 20, 21])
-#    v5 = vector([6, 41, 49, 11, 70, 67])
-#    v6 = vector([23, 36, 6, 1, 46, 4])
-#    base = [v1, v2, v3, v4, v5, v6]
-#    dim = 3
-#    v1 = vector([20, 16, 3])
-#    v2 = vector([15, 0, 10])
-#    v3 = vector([0, 18, 9])
-#    base = [v1, v2, v3]
+    N, q = int(input()), int(input())
+    base = [vector([int(pow(i+1 + N, j+1, q)) for j in range(N)]) for i in range(N)]
+    c = base[0].norm() 
+    k = 0
+    v = base[0]
+    for i in range(N):
+        if(base[i].norm() < c):
+            c = base[i].norm()
+            k = i
+            v = base[i]
+    print("Base shortest vector: ", v)
+    print("Base shortest length: ", c.n())
 
-
-#base = [(0, 0, -2), (-1, -4, 4), (1, 1, -1)]
-#    base = eval(input())
-
-
-    #base = [(2, 2, -4, 0, -2), (0, 17, 1, -1, 5), (0, 43, 1, -1, 1), (1, -1, -2, 1, 5), (1, -3, 3, -1, -1)]
-    base = [(20, 51, 35, 59, 73, 73), (14, 48, 33, 61, 47, 83), (95, 41, 48, 84, 30, 45), (0, 42, 74, 79, 20, 21), (6, 41, 49, 11, 70, 67), (23, 36, 6, 1, 46, 4)]
-    base = [vector(x) for x in base]
-    print(base)
     print()
-    c = LLL_imporved(base, 0.99)
-    print(c)
-    print(HadamardRatio(c))
-    LLL_check(c, 0.99, 0.5)
+    for i in base:
+        for j in i:
+            print(j, end=" ")
+    print()
+    print(Matrix(base).T)
+    print()
+    l0, l1 = GaussianExpected(base)
+    print("Base Hadamard Ratio: ", HadamardRatio(base))
+
+    beg = time()
+    base = LLL_imporved(copy(base), delta=0.99)
+    end = time()
+    print("Time Elapsed: ", beg - end)
+    print()
+    print(Matrix(base).T)
+    print()
+    print("LLL reduced Hadamard Ratio: ", HadamardRatio(base))
+
+    print("The expected shortest length: ", l0.n())
+    print("Approximately shortest length: ", l1.n())
+    c = base[0].norm() 
+    k = 0
+    v = base[0]
+    for i in range(N):
+        if(base[i].norm() < c):
+            c = base[i].norm()
+            k = i
+            v = base[i]
+    print("LLL reduced shortest vector: ", v)
+    print("LLL reduced shortest length: ", c.n())
+    print("It's number: ", k + 1)
+    print(LLL_check(base, delta=0.99))
+
