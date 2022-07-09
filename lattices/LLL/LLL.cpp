@@ -1,5 +1,34 @@
 #include "LLL.hpp"
 #include <iostream>
+#include "../lattice_attacks.hpp"
+
+bool LLL_check(Eigen::MatrixXd& base, double delta, double eta){
+    Eigen::MatrixXd orthogonal(base.cols(), base.cols());
+    Eigen::MatrixXd mu = Eigen::MatrixXd::Zero(base.cols(), base.cols());
+    for(int i = 0; i < base.cols(); i++){
+        orthogonal.col(i) = base.col(i);
+        for(int j = 0; j < i; j++){
+            double m = base.col(i).dot(orthogonal.col(j)) / orthogonal.col(j).squaredNorm();
+            mu(i, j) = m;
+            orthogonal.col(i) -= m * orthogonal.col(j);
+        }
+    }
+
+    for(int i = 0; i < mu.cols(); i++){
+        for(int j = 0; j < i; j++){
+            if(fabs(mu(i, j)) > 1/2.0){
+                return false;
+            }
+        }
+    }
+    for(int i = 1; i < base.cols(); i++){
+        if(orthogonal.col(i).squaredNorm() < (delta - mu(i, i-1)*mu(i, i-1)) * orthogonal.col(i-1).squaredNorm()){
+            return false;
+        }
+    }
+    return true;
+}
+
 
 void LLL(Eigen::MatrixXd& base, double delta, double eta){
     int k = 1, kmax = 0, dim = base.cols();
@@ -20,18 +49,18 @@ void LLL(Eigen::MatrixXd& base, double delta, double eta){
                 mu(k, j) = base.col(k).dot(orthogonal.col(j)) / bs(j);
                 orthogonal.col(k) -= mu(k, j) * orthogonal.col(j);
             }
-            std::cout << orthogonal << std::endl << std::endl;
+//           std::cout << orthogonal << std::endl << std::endl;
             bs(k) = orthogonal.col(k).squaredNorm();
         }
 
         while(true){
             reduce(k, k-1, eta, mu, base);
-            std::cout << "reduce\n" << base << std::endl << std::endl;
-            if(bs(k) < (delta - mu(k, k-1)) * bs(k-1)){
+//            std::cout << "reduce\n" << base << std::endl << std::endl;
+            if(bs(k) < (delta - mu(k, k-1)*mu(k, k-1)) * bs(k-1)){
                 swap(k, kmax, mu, bs, base, orthogonal);
-                std::cout << "swap" << std::endl;
-                std::cout << base << std::endl << std::endl;
-                std::cout << orthogonal << std::endl << std::endl;
+ //               std::cout << "swap" << std::endl;
+ //               std::cout << base << std::endl << std::endl;
+ //               std::cout << orthogonal << std::endl << std::endl;
                 k = std::max(1, k-1);
                 continue;
             }
@@ -40,6 +69,7 @@ void LLL(Eigen::MatrixXd& base, double delta, double eta){
                     reduce(k, l, eta, mu, base);
                 }
                 k++;
+ //               std::cout << HadamardRatio(base) << std::endl;
             }
 
             if(k < dim){
