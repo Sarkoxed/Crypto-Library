@@ -1,6 +1,15 @@
 from sage.all import *
-
 from copy import copy
+
+def LLL_check(base, delta=3/4, eta=1/2):
+    w = [vector(x) for x in Matrix(base).gram_schmidt()[0]]
+    mu = [[base[i].dot_product(w[j]) / w[j].norm()**2 for j in range(len(base))] for i in range(len(base))]
+#    print(mu)
+    for i in range(len(mu)):
+        for j in range(len(mu)):
+            assert i == j or abs(mu[i][j]) <= eta
+    for i in range(1, len(base)):
+        assert w[i].norm()**2 >= (delta - mu[i][i-1]**2) * w[i-1].norm()**2
 
 def HadamardRatio(v):
     m = Matrix(v)
@@ -29,27 +38,28 @@ def LLL_imporved(base, delta=3/4):
             for j in range(k):
                 mu[k][j] = base[k].dot_product(orth[j]) / bs[j]
                 orth[k] -= mu[k][j] * orth[j]
-            print(Matrix(orth).T.n(23))
-            print()
+#            print(Matrix(orth).T.n(23))
+#            print()
             bs[k] = orth[k].norm()**2
 
         while(True):
             reduce(k, k-1, mu, base)
-            print("reduce")
-            print(Matrix(base).T)
-            print()
+#            print("reduce")
+#            print(Matrix(base).T)
+#            print()
             if(bs[k] < (delta - mu[k][k-1]**2) * bs[k-1]):
                 swap(k, kmax, mu, bs, base, orth)
-                print('swap')
-                print(Matrix(base).T)
-                print()
-                print(Matrix(orth).T.n(23))
-                print()
+#                print('swap')
+#                print(Matrix(base).T)
+#                print()
+#                print(Matrix(orth).T.n(23))
+#                print()
                 k = max(1, k-1)
                 continue
             else:
                 for l in range(k-2, -1, -1):
                     reduce(k, l, mu, base)
+     #           print(HadamardRatio(base))
                 k += 1
  
             if(k < n):
@@ -107,10 +117,15 @@ if __name__ == "__main__":
 
 
 #base = [(0, 0, -2), (-1, -4, 4), (1, 1, -1)]
-    base = eval(input())
+#    base = eval(input())
+
+
+    #base = [(2, 2, -4, 0, -2), (0, 17, 1, -1, 5), (0, 43, 1, -1, 1), (1, -1, -2, 1, 5), (1, -3, 3, -1, -1)]
+    base = [(20, 51, 35, 59, 73, 73), (14, 48, 33, 61, 47, 83), (95, 41, 48, 84, 30, 45), (0, 42, 74, 79, 20, 21), (6, 41, 49, 11, 70, 67), (23, 36, 6, 1, 46, 4)]
     base = [vector(x) for x in base]
     print(base)
     print()
-    c = LLL_imporved(base, 0.75)
+    c = LLL_imporved(base, 0.99)
     print(c)
     print(HadamardRatio(c))
+    LLL_check(c, 0.99, 0.5)
