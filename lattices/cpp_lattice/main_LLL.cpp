@@ -20,12 +20,12 @@ int main(){
     }
     base.transposeInPlace();
 
-    mpf_class c = base.col(0).norm();
+    mpf_class c = base.col(0).cast<mpf_class>().norm();
     int k = 0;
-    Eigen::VectorXd v = base.col(0);
+    Eigen::Vector<mpz_class, Eigen::Dynamic> v = base.col(0);
     for(int i = 1; i < dim; i++){
         if(base.col(i).norm() < c){
-            c = base.col(i).norm();
+            c = base.col(i).cast<mpf_class>().norm();
             k = i;
             v = base.col(i);
         }
@@ -57,12 +57,12 @@ int main(){
     std::cout << "Gaussian Expected: " << GaussianExpectedShortestLength(base) << std::endl;
     std::cout << "Gaussian Appr:     " << GaussianExpectedAppr(base) << std::endl;
 
-    c = base.col(0).norm();
+    c = base.col(0).cast<mpf_class>().norm();
     k = 0;
     v = base.col(0);
     for(int i = 1; i < dim; i++){
         if(base.col(i).norm() < c){
-            c = base.col(i).norm();
+            c = base.col(i).cast<mpf_class>().norm();
             k = i;
             v = base.col(i);
         }
