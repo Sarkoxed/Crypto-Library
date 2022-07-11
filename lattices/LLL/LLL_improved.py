@@ -110,8 +110,10 @@ def swap(k, kmax, mu, bs, base, orth):
     return
 
 if __name__ == "__main__":
-    N, q = int(input()), int(input())
-    base = [vector([int(pow(i+1 + N, j+1, q)) for j in range(N)]) for i in range(N)]
+#    N, q = int(input()), int(input())
+#     base = [vector([int(pow(i+1 + N, j+1, q)) for j in range(N)]) for i in range(N)]
+    N = int(input())
+    base = [vector([int(x) for x in input().split()]) for i in range(N)]
     c = base[0].norm() 
     k = 0
     v = base[0]
