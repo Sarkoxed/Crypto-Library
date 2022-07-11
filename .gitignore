@@ -1,6 +1,7 @@
 *.out
 __pycache__/
 pedik.cpp
+pidor
 check.py
 .gitignore
 ntrumls.py
