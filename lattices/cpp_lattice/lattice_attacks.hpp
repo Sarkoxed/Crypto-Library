@@ -14,6 +14,7 @@ double GaussianExpectedShortestLength(Eigen::Matrix<mpz_class, Eigen::Dynamic, E
 double GaussianExpectedAppr(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& base);
 
 void GramSchmidt(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis, Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>& orth);
+bool orth_check(Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>& base);
 void Babai_Closest_vertex(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vector<mpz_class, Eigen::Dynamic>& w, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis);
 void Babai_Closest_plain(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vector<mpz_class, Eigen::Dynamic>& w, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis);
 void Gauss_Lattice_Reduction(Eigen::Vector<mpz_class, Eigen::Dynamic>&, Eigen::Vector<mpz_class, Eigen::Dynamic>&);

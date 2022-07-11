@@ -45,11 +45,22 @@ void GramSchmidt(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis
     for(int i = 0; i < basis.cols(); i++){
         orth.col(i) = basis.col(i).cast<mpq_class>();
         for(int j = 0; j < i; j++){
-            dot = basis.col(i).cast<mpq_class>().dot(orth.col(i));
-            m = dot / orth.col(i).squaredNorm();
+            dot = basis.col(i).cast<mpq_class>().dot(orth.col(j));
+            m = dot / orth.col(j).squaredNorm();
             orth.col(i) -= m * orth.col(j);
         }
     }
+}
+
+bool orth_check(Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>& base){
+    for(int i = 0; i < base.cols(); i++){
+        for(int j = 0; j < i; j++){
+            if(base.col(j).dot(base.col(i)) != 0){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 //void Babai_Closest_vertex(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vector<mpz_class, Eigen::Dynamic>& w, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis){
@@ -62,9 +73,11 @@ void Babai_Closest_plain(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vec
     GramSchmidt(basis, orthogonal);
     Eigen::Vector<mpz_class, Eigen::Dynamic> ans = t;
     Eigen::Vector<mpq_class, Eigen::Dynamic> x, y;
+    bool debug1 = orth_check(orthogonal);
     for(int i = basis.cols()-1; i >= 0; i--){
         y = orthogonal.col(i);
-        ans = ans - nearest(x.cast<mpq_class>().dot(y) / y.squaredNorm()) * basis.col(i);
+        double debug = nearest(ans.cast<mpq_class>().dot(y) / y.squaredNorm()).get_si();
+        ans -= nearest(ans.cast<mpq_class>().dot(y) / y.squaredNorm()) * basis.col(i);
     }
     v = t - ans;
 }
