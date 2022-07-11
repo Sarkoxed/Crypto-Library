@@ -21,6 +21,6 @@ void Gauss_Lattice_Reduction(Eigen::Vector<mpz_class, Eigen::Dynamic>&, Eigen::V
 void LLL(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&, mpq_class delta=mpq_class(3, 4), mpq_class eta=mpq_class(1,2));
 void reduce(int, int, mpq_class, Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>&, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&);
 void swap(int, int, Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>&, Eigen::Vector<mpq_class, Eigen::Dynamic>&, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&, Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>&);
-bool LLL_check(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&, mpq_class delta=mpq_class(3, 4), mpq_class eta=mpq_class(3, 4));
+bool LLL_check(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&, mpq_class delta=mpq_class(3, 4), mpq_class eta=mpq_class(1, 2));
 
 

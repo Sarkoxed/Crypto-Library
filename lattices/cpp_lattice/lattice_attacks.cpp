@@ -14,12 +14,12 @@ mpz_class nearest(mpq_class x){
 }
 
 double HadamardRatio(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& b){
-    double det = b.cast<double>().determinant();
+    double det = b.cast<mpf_class>().determinant().get_d();
         
     int dim = b.cols();
     double prod = 1.0;
     for(int i = 0; i < dim; i++){
-        prod *= b.col(i).cast<double>().norm();
+        prod *= b.col(i).cast<mpf_class>().norm().get_d();
     }
     det = fabs(det) / prod;
     return powf(det, 1.0/dim);
@@ -27,14 +27,14 @@ double HadamardRatio(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& b
 
 double GaussianExpectedShortestLength(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& base){
     double fac = tgamma(1 + base.cols() / 2.0);
-    fac *= fabs(base.cast<double>().determinant());
+    fac *= fabs(base.cast<mpf_class>().determinant().get_d());
     fac = pow(fac, 1.0/base.cols());
     fac *= sqrt(M_1_PI);
     return fac;
 }
 
 double GaussianExpectedAppr(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& base){
-    double fac = pow(fabs(base.cast<double>().determinant()), 1.0/base.cols());
+    double fac = pow(fabs(base.cast<mpf_class>().determinant().get_d()), 1.0/base.cols());
     fac *= sqrt(base.cols() / (2.0 * M_E) * M_1_PI);
     return fac;
 }
