@@ -17,12 +17,15 @@ double HadamardRatio(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& b
     double det = b.cast<mpf_class>().determinant().get_d();
         
     int dim = b.cols();
-    double prod = 1.0;
+    mpf_class prod = 1.0;
     for(int i = 0; i < dim; i++){
-        prod *= b.col(i).cast<mpf_class>().norm().get_d();
+        prod *= mpf_class(pow(b.col(i).cast<mpf_class>().norm().get_d(), 1.0/dim));
     }
-    det = fabs(det) / prod;
-    return powf(det, 1.0/dim);
+    double x = prod.get_d();
+    det = pow(abs(det), 1.0/dim);
+    mpf_class ans = mpf_class(det)/prod;
+    x = ans.get_d();
+    return ans.get_d();
 }
 
 double GaussianExpectedShortestLength(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& base){

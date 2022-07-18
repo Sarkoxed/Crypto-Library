@@ -17,7 +17,7 @@ void GramSchmidt(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis
 bool orth_check(Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>& base);
 void Babai_Closest_vertex(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vector<mpz_class, Eigen::Dynamic>& w, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis);
 void Babai_Closest_plain(Eigen::Vector<mpz_class, Eigen::Dynamic>& v, Eigen::Vector<mpz_class, Eigen::Dynamic>& w, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>& basis);
-void Gauss_Lattice_Reduction(Eigen::Vector<mpz_class, Eigen::Dynamic>&, Eigen::Vector<mpz_class, Eigen::Dynamic>&);
+void GaussLatticeReduction(Eigen::Vector<mpz_class, Eigen::Dynamic>&, Eigen::Vector<mpz_class, Eigen::Dynamic>&);
 
 void LLL(Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&, mpq_class delta=mpq_class(3, 4), mpq_class eta=mpq_class(1,2));
 void reduce(int, int, mpq_class, Eigen::Matrix<mpq_class, Eigen::Dynamic, Eigen::Dynamic>&, Eigen::Matrix<mpz_class, Eigen::Dynamic, Eigen::Dynamic>&);
