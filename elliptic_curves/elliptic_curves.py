@@ -220,7 +220,6 @@ class ECPoint:
         if(n < 0):
             self = -self
             n = -n
-        n = [int(x) for x in bin(n)[2:][::-1]]
         n = self.ternary(n)
         q = ECPoint(0, 1, 0, self._EC)
         for i in range(len(n)):
@@ -235,6 +234,16 @@ class ECPoint:
         return q
 
     __rmul__ = __mul__
+
+    def constant_time_mul(self, n: int):
+        n = [int(x) for x in bin(n)[2:][::-1]]
+        R0, R1 = self, self+self
+        for i in range(len(n)-2, -1, -1):
+            if(n[i] == 0):
+                R0, R1 = R0 + R0, R0 + R1
+            else:
+                R0, R1 = R0 + R1, R1 + R1
+        return R0
 
     def naive_ecdlp(self, Q) -> int:
         n = self._EC.get_naive_order(self)
