@@ -2,11 +2,10 @@ from string import ascii_lowercase, ascii_uppercase, punctuation, digits
 from sys import argv
 import json
 
-#ext = punctuation + digits
-#alph = ascii_lowercase
+# ext = punctuation + digits
+# alph = ascii_lowercase
 alph = ascii_lowercase + digits
 ext = punctuation
-
 
 
 def encrypt(s: str, n: int):
@@ -20,6 +19,7 @@ def decrypt(s: str, n: int):
     d = dict(zip(alph[n:] + alph[:n] + ext, alph + ext))
     return "".join(d[x] for x in s)
 
+
 def brute(s: str):
     s = s.lower()
     for i in range(26):
@@ -27,12 +27,13 @@ def brute(s: str):
         d = dict(zip(a + ext, alph + ext))
         print("".join([d[x] for x in s]))
 
+
 def freq(s: str):
     s1 = json.loads(open("frequencies/one.json", "r").read())
     s2 = json.loads(open("frequencies/bi.json", "r").read())
     s = s.lower()
 
-    if(len(s) == 0):
+    if len(s) == 0:
         return
 
     d1 = dict()
@@ -43,29 +44,31 @@ def freq(s: str):
     for i, j in d1.items():
         d1[i] = j / len(s)
 
+
 #    ----------------------------------------
 
 
 def main():
-    if(len(argv) == 1):
+    if len(argv) == 1:
         print("--help for help")
-    elif(argv[1] == "help"):
+    elif argv[1] == "help":
         print("enc <plain> <rot>")
         print("dec <cip> <rot>")
         print("brute <cip>")
         print("freq <cip>")
         print("brfreq <cip>")
-    elif(argv[1] == "enc"):
+    elif argv[1] == "enc":
         print(encrypt(argv[2], int(argv[3])))
-    elif(argv[1] == "dec"):
+    elif argv[1] == "dec":
         print(decrypt(argv[2], int(argv[3])))
-    elif(argv[1] == "brute"):
+    elif argv[1] == "brute":
         print(brute(argv[2]))
+
+
 #    elif(argv[1] == "freq"):
 #        freq(argv[2])
 #    elif(argv[1] == "brfreq"):
 #        brfreq(argv[2])
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
