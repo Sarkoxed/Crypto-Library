@@ -1,0 +1,12 @@
+asn1=SEQUENCE:rsa_key
+
+[rsa_key]
+version=INTEGER:0
+modulus=INTEGER:187
+pubExp=INTEGER:7
+privExp=INTEGER:23
+p=INTEGER:17
+q=INTEGER:11
+e1=INTEGER:7
+e2=INTEGER:3
+coeff=INTEGER:14

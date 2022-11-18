@@ -1,0 +1,2 @@
+openssl asn1parse -genconf keyfile -out newkey.der
+openssl rsa -in newkey.der -inform der -text -check
