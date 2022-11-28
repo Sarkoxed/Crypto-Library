@@ -109,6 +109,8 @@ def attack(c, e, n):
         for a, b in Ms:
             r_lower = int(mpq(a * s - B3 + 1, n).__ceil__())
             r_upper = int(mpq(b * s - B2, n).__floor__())
+            print(r_upper - r_lower)
+            exit(0)
             for r in range(r_lower, r_upper + 1):
                 a1 = int(mpq(B2 + r * n, s).__ceil__())
                 b1 = int(mpq(B3 - 1 + r * n,  s).__floor__())
