@@ -25,3 +25,9 @@ coppersmith. Bivariate too you little fuck.
 ________________________________________
 why does cpp algo on pkcs works in less oracls calls?
 test it on general values
+________________________________________
+RC4
+Determine why does the 2nd byte doesn't work in the 1st round attack
+Cope with the ugly swaps with specific keys
+Fix the attack with IV preceding key
+Finish the 2nd round attack
