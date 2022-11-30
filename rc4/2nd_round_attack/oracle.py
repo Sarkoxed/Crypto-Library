@@ -3,10 +3,16 @@ from os import urandom
 
 
 class OracleC:
-    main_key: bytes = b"O\x89\xbd\xb1\x9de\xe6"  + b'UU\xb5\xc4O\x9c\xea' +  b'TN>\xed\xac\xeb\x06by\xe4\x83\xfd\xab<\xdb\x8b3\x87\x05I\x90;\x1a\xbax\x15\x10\xdf'
+    main_key: bytes = b""
 
-    def __init__(self, pre: bool):
-        self.IV = urandom(64 - len(self.main_key))
+    def __init__(
+        self,
+        pre: bool,
+        keylen: int = 64,
+        main_key: bytes = b"crypto{some_not_random_but_cool}",
+    ):
+        self.main_key = main_key
+        self.IV = urandom(keylen - len(self.main_key))
         if pre:
             self.cipher = ARC4.new(self.main_key + self.IV)
         else:
@@ -20,20 +26,29 @@ class OracleO:
     S: list[int] = []
     i: int = 0
     j: int = 0
-    main_key: bytes = b"O\x89\xbd\xb1\x9de\xe6" + b'UU\xb5\xc4O\x9c\xea'
-    trace: list[int] = []
+    main_key: bytes = b""
+    trace: list[int] = []  # debug
 
-    def __init__(self, pre: bool, keylen: int = 64):
+    def __init__(
+        self,
+        pre: bool,
+        n: int = 256,
+        keylen: int = 64,
+        main_key: bytes = b"crypto{some_not_random_but_cool}",
+    ):
+        self.n = n
+        self.main_key = main_key
         self.IV = urandom(keylen - len(self.main_key))
+
         if pre:
             self.key = self.main_key + self.IV
         else:
             self.key = self.IV + self.main_key
 
-        S = [i for i in range(256)]
+        S = [i for i in range(self.n)]
         j = 0
-        for i in range(256):
-            j = (j + S[i] + self.key[i % len(self.key)]) % 256
+        for i in range(self.n):
+            j = (j + S[i] + self.key[i % len(self.key)]) % self.n
             S[i], S[j] = S[j], S[i]
 
         self.S = S
@@ -41,18 +56,16 @@ class OracleO:
         self.j = 0
 
     def next(self):
-        self.i = (self.i + 1) % 256
-        self.j = (self.j + self.S[self.i]) % 256
+        self.i = (self.i + 1) % self.n
+        self.j = (self.j + self.S[self.i]) % self.n
         self.S[self.i], self.S[self.j] = self.S[self.j], self.S[self.i]
-        K = self.S[(self.S[self.i] + self.S[self.j]) % 256]
+        K = self.S[(self.S[self.i] + self.S[self.j]) % self.n]
         return K
 
-    def encrypt(self, pl: bytes):
-        pl = list(pl)
-
+    def encrypt(self, pl: list[int]):
         for i in range(len(pl)):
             pl[i] ^= self.next()
         return bytes(pl)
 
     def call(self):
-        return self.encrypt(b"\x00")[0]
+        return self.encrypt([0])[0]
