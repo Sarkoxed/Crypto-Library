@@ -30,3 +30,4 @@ RC4
 Determine why does the 2nd byte doesn't work in the 1st round attack. And for now determine why it doesn't happen anymore
 Cope with the ugly swaps with specific keys
 Finish the 2nd round attack
+chosen IV attack on rc4
