@@ -1,0 +1,4 @@
+Follows:
+    The second stream byte is 0 more often than the t = f(K[0], K[1], K[2])
+Precedes:
+    Bigger length of IV(and more random) -> better result with the less number of calls
