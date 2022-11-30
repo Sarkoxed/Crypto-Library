@@ -3,10 +3,10 @@ from os import urandom
 
 
 class OracleC:
-    main_key: bytes = b"O\x89\xbd\xb1\x9de\xe6"  + b'UU\xb5\xc4O\x9c\xea' +  b'TN>\xed\xac\xeb\x06by\xe4\x83\xfd\xab<\xdb\x8b3\x87\x05I\x90;\x1a\xbax\x15\x10\xdf'
+    main_key: bytes = b"O\x89\xbd\xb1\x9de\xe6" + b'UU\xb5\xc4O\x9c\xea'
 
-    def __init__(self, pre: bool):
-        self.IV = urandom(64 - len(self.main_key))
+    def __init__(self, pre: bool, keylen: int = 64):
+        self.IV = urandom(keylen - len(self.main_key))
         if pre:
             self.cipher = ARC4.new(self.main_key + self.IV)
         else:
@@ -20,15 +20,14 @@ class OracleO:
     S: list[int] = []
     i: int = 0
     j: int = 0
-    main_key: bytes = b"O\x89\xbd\xb1\x9de\xe6" + b'UU\xb5\xc4O\x9c\xea'
+    main_key: bytes = b"crypto{some_not_random_but_cool}"
     trace: list[int] = []
 
     def __init__(self, pre: bool, keylen: int = 64):
+        self.IV = urandom(keylen - len(self.main_key))
         if pre:
-            self.IV = urandom(keylen - len(self.main_key))
             self.key = self.main_key + self.IV
         else:
-            self.IV = urandom(256 - len(self.main_key))
             self.key = self.IV + self.main_key
 
         S = [i for i in range(256)]
