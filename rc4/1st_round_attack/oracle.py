@@ -1,5 +1,6 @@
 from Crypto.Cipher import ARC4
 from os import urandom
+from typing import Optional
 
 
 class OracleC:
@@ -10,9 +11,14 @@ class OracleC:
         pre: bool,
         keylen: int = 64,
         main_key: bytes = b"crypto{some_not_random_but_cool}",
+        IV: Optional[bytes] = None
     ):
         self.main_key = main_key
-        self.IV = urandom(keylen - len(self.main_key))
+        if IV is None:
+            self.IV = urandom(keylen - len(self.main_key))
+        else:
+            self.IV = IV
+
         if pre:
             self.cipher = ARC4.new(self.main_key + self.IV)
         else:
@@ -35,10 +41,14 @@ class OracleO:
         n: int = 256,
         keylen: int = 64,
         main_key: bytes = b"crypto{some_not_random_but_cool}",
+        IV: Optional[bytes] = None
     ):
         self.n = n
         self.main_key = main_key
-        self.IV = urandom(keylen - len(self.main_key))
+        if IV is None:
+            self.IV = urandom(keylen - len(self.main_key))
+        else:
+            self.IV = IV
 
         if pre:
             self.key = self.main_key + self.IV
