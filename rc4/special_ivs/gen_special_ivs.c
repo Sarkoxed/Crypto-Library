@@ -21,30 +21,42 @@ int calc_S_1(int* IV, int b){
 }
 
 void calc_ivs(FILE* fp, int b, int keylen){
-    int i = 0;
+    int i;
     int* IV = (int*)calloc(b, sizeof(int));
     IV[0] = 0;
+    int total = 115500;
     for(int c = 0; c < keylen; c++){
+        fprintf(fp, "\"%d\": [", c);
         IV[1] = b + c - 1;                      // S[1] = b + c after the 1st round of KS
-        while (i < 115500){                     // enough IV values
+        i = 0;
+        while (i < total){                     // enough IV values
             for(int j = 2; j < b; j++){         // gen random IV
                 IV[j] = rand() % 256;
             }
 
             if (calc_S_1(IV, b) == b + c){      // check IV for speciality
-                fprintf(fp, "%d,[", b);
-
-                for(int k = 0; k < b; k++){
+                fprintf(fp, "[");
+                for(int k = 0; k < b-1; k++){
                     fprintf(fp, "%d,", IV[k]);
                 }
-                fprintf(fp, "],");
-                fprintf(fp, "%d\n", c);
+                if (i != total - 1){
+                    fprintf(fp, "%d],", IV[b-1]);
+                }
+                else{
+                    fprintf(fp, "%d]", IV[b-1]);
+                }
                 i++;
                 if (i % 10000 == 0){
                     printf("%d/115500\n", i);
                 }
             }
 
+        }
+        if (c != keylen-1){
+            fprintf(fp, "],");
+        }
+        else{
+            fprintf(fp, "]");
         }
     }
     free(IV);
@@ -57,13 +69,16 @@ int main(){
     int b;
     printf("The length of IV: ");
     scanf("%d", &b);
+    printf("The length of key: ");
+    int keylen;
+    scanf("%d", &keylen);
     char* filename = (char*)calloc(16, sizeof(char));
-    sprintf(filename, "db/IV_%d.csv", b);
-    FILE* fp = fopen(filename, "wt");
-    fprintf(fp, "IVlen, [IV], keybyte\n");
+    sprintf(filename, "db/IV_%d.json", b);
+    FILE* fp = fopen(filename, "wt"); 
     
-    for(int keylen = 1; keylen <= 64 - b; keylen++){
-        calc_ivs(fp, b, keylen);
-    }
+    fprintf(fp, "{");
+    
+    calc_ivs(fp, b, keylen - b);
+    fprintf(fp, "}");
     fclose(fp);
 }
