@@ -105,7 +105,7 @@
     - Stackoverflow
 - Inverse modulo
 - Primeness check + gen
-    - is_prime
+    - is prime
     - Atkin
     - Simple Prime in range finder
     - Euler's pattern to find primes
@@ -117,3 +117,4 @@
 - Legandre symbol
 - use of gmp example
 - use of z3 example
+- use of cado-nfs example
