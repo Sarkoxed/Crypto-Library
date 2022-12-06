@@ -2,48 +2,79 @@ from sage.all import *
 from random import randint
 from math import floor, log, gcd
 
-g = int(input("g-> "))
-N = int(input("N-> "))
-h = int(input("h-> "))
-p = int(input("p-> "))
 
+def getPowers(a, x, g, h, p, k):
+    a, b = a
 
-def getPowers(g, h, p, a, b, x):
-    if x < p / 3:
+    if k > 1:
+        N = k * p
+        if x not in GF(p):
+            par = sum(int(x) for x in list(x))
+        else:
+            par = int(x)
+    else:
+        N = p
+        par = int(x)
+
+    if par < N / 3:
         a += 1
-    elif p / 3 <= x < 2 * p / 3:
+    elif N / 3 <= par and par < 2 * N / 3:
         a *= 2
         b *= 2
     else:
         b += 1
 
-    return a % (p - 1), b % (p - 1), (pow(g, a, p) * pow(h, b, p)) % p
+    mod = p ** (k - 1) * (p - 1)
+    return a % mod, b % mod, pow(g, a) * pow(h, b)
 
 
-ax, bx, ay, by = 0, 0, 0, 0
-x, y = 1, 1
-while True:
-    ax, bx, x = getPowers(g, h, p, ax, bx, x)
+def pollard_rho(g, h, p, k=1):
+    ax, bx, ay, by = 0, 0, 0, 0
 
-    ay, by, y = getPowers(g, h, p, ay, by, y)
-    ay, by, y = getPowers(g, h, p, ay, by, y)
+    mod = p ** (k - 1) * (p - 1)
 
-    if (x - y) % p == 0:
-        break
+    x, y = 1, 1
+    while True:
+        ax, bx, x = getPowers((ax, bx), x, g, h, p, k)
 
-u = (ax - ay) % (p - 1)
-v = -(bx - by) % (p - 1)
-print(u, v, p - 1)
+        ay, by, y = getPowers((ay, by), y, g, h, p, k)
+        ay, by, y = getPowers((ay, by), y, g, h, p, k)
 
-d = gcd(v, p - 1)
+        if x == y:
+            break
 
-u //= d
-w = (p - 1) // d
-v //= d
+    u = (ax - ay) % mod
+    v = -(bx - by) % mod
+#    print(u, v, mod)
 
-ans = (pow(v, -1, w) * u) % w
-fans = []
-for k in range(0, d):
-    fans.append(ans + k * w)
+    d = gcd(v, mod)
+    print(d)
 
-print(fans)
+    u //= d
+    w = mod // d
+    v //= d
+
+    ans = (pow(v, -1, w) * u) % w
+    fans = []
+    for k in range(0, d):
+        fans.append(ans + k * w)
+
+    return fans
+
+
+#g = int(input("g-> "))
+#h = int(input("h-> "))
+#p = int(input("p-> "))
+#k = int(input("k-> "))
+
+p = random_prime(100000)
+G = GF(p**2)
+g = G.random_element()
+x = randint(1, p-1)
+h = g**x
+
+print(f"p, g, h, x = {p}, {g}, {h}, {x}")
+
+pos = pollard_rho(g, h, p, 2)
+print(pos)
+assert x in pos
