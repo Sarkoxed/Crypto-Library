@@ -22,6 +22,7 @@
 ### Elliptic Curves
 - Weil Pairing And Miller Algorithm(doesn't work)
 - Smart attack
+- Babai
 
 ### Lattice Cryptography
 - ntru signature complete
@@ -38,3 +39,7 @@
 - Feistel
 - AES
     - implementation check, maybe c
+
+### ZKP
+- Imlement py_pairing and all this twisted stuff by myself
+- bulletproofs?
