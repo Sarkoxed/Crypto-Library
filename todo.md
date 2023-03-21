@@ -23,6 +23,7 @@
 - Weil Pairing And Miller Algorithm(doesn't work)
 - Smart attack
 - Babai
+- ecdsa attacks
 
 ### Lattice Cryptography
 - ntru signature complete

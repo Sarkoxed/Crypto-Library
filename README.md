@@ -20,6 +20,8 @@
 - ECC implementation in python
 - Weil Pairing implementation in python
 - ECDH implementation in python
+- ecdsa
+    - Elliptic Curve DSA implementation in python
 - Anomalous Curves
     - Smart attack implementation in python
 - MOV

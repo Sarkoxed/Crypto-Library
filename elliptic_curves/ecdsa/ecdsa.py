@@ -1,10 +1,11 @@
 from sage.all import EllipticCurve, GF, is_prime
 from Crypto.Util.number import getPrime
-from random import randint
+import random
 from hashlib import shake_256
+from os import urandom
 
 
-def keygen(p: int, a: int, b: int, q: int, G = None):
+def keygen(p: int, a: int, b: int, q: int, G=None):
     e = EllipticCurve(GF(p), [a, b])
     o = e.order()
     assert o % q == 0
@@ -19,22 +20,28 @@ def keygen(p: int, a: int, b: int, q: int, G = None):
     else:
         G = e(G)
 
-    d = randint(1, q-1)
+    while True:
+        d = urandom(q.bit_length() // 8)
+        d = int.from_bytes(d, 'big')
+        d = d % q
+        if 1 <= d <= q - 1:
+            break
+
     Q = d * G
     return (G, Q, q), d
 
 
 def hash(m: bytes, n: int):
-    e = int.from_bytes(shake_256(m).digest(n), 'big')
+    e = int.from_bytes(shake_256(m).digest(n), "big")
     return e
 
 
-def sign(m: bytes, pk, sk):
+def sign(m: bytes, pk, sk, randint):
     G, Q, q = pk
     d = sk
     e = hash(m, int(q).bit_length() // 8)
 
-    k = randint(1, q-1) # try to create k from m and d
+    k = randint(1, q - 1)  # try to create k from m and d
     R = k * G
     r = int(R.xy()[0]) % q
     assert r != 0
@@ -54,7 +61,7 @@ def verify(sig, pk, m):
     assert 1 <= r <= q - 1
     assert 1 <= s <= q - 1
     e = hash(m, int(q).bit_length() // 8)
-    
+
     inv = pow(s, -1, q)
     u1 = (e * inv) % q
     u2 = (r * inv) % q
@@ -71,5 +78,5 @@ if __name__ == "__main__":
     pk, sk = keygen(p, a, b, q)
     m = b"abobafinder"
 
-    sig = sign(m, pk, sk)
+    sig = sign(m, pk, sk, random.randint)
     print(verify(sig, pk, m))
