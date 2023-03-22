@@ -24,6 +24,8 @@
 - Smart attack
 - Babai
 - ecdsa attacks
+    - LLL
+    - Random things
 
 ### Lattice Cryptography
 - ntru signature complete
