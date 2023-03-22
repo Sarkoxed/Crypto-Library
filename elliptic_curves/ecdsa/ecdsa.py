@@ -36,7 +36,7 @@ def hash(m: bytes, n: int):
     return e
 
 
-def sign(m: bytes, pk, sk, randint):
+def sign(m: bytes, pk, sk, randint, flag = False):
     G, Q, q = pk
     d = sk
     e = hash(m, int(q).bit_length() // 8)
@@ -49,7 +49,9 @@ def sign(m: bytes, pk, sk, randint):
     s = (pow(k, -1, q) * (e + r * d)) % q
     assert s != 0
 
-    return (r, s)
+    if not flag:
+        return (r, s)
+    return (r, s), k
 
 
 def verify(sig, pk, m):
