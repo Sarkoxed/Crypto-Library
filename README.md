@@ -59,6 +59,13 @@
 - Coppersmith attacks
 - Finding an Algebraic relation using sage
 
+### Algebraic Things
+- Ring structure of polynomial quotient ring
+    - Order of a multplicative subgroup
+    - All the possible orders in this group
+    - Ring factorization
+    - TODO: find the number of elements in the group s.t. their order is K | minimal_power
+
 ### AES
 - CBC Mode
     - Padding Oracle attack implementation

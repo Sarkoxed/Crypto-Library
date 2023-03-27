@@ -46,3 +46,6 @@
 ### ZKP
 - Imlement py_pairing and all this twisted stuff by myself
 - bulletproofs?
+
+### Algebraic Things
+- number of els to the corresponding order
