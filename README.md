@@ -65,6 +65,9 @@
     - All the possible orders in this group
     - Ring factorization
     - TODO: find the number of elements in the group s.t. their order is K | minimal_power
+- Jordan General Decomposition
+    - Get jordan general decomposition of a matrix over a finite field
+    - Find the matrix order with help of previous thing
 
 ### AES
 - CBC Mode

@@ -49,3 +49,4 @@
 
 ### Algebraic Things
 - number of els to the corresponding order
+- jordan general form + analyzing lfsr
