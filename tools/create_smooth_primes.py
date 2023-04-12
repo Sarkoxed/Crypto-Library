@@ -12,8 +12,6 @@ if sys.version_info < (3, 9):
 
 _DEBUG = True
 
-FLAG = open("flag.txt").read().strip()
-FLAG = mpz(hexlify(FLAG.encode()), 16)
 SEED = mpz(hexlify(os.urandom(32)).decode(), 16)
 STATE = random_state(SEED)
 
@@ -56,19 +54,16 @@ def get_smooth_prime(state, bits, smoothness=16):
 e = 0x10001
 
 while True:
-    p, p_factors = get_smooth_prime(STATE, 1024, 16)
+    p, p_factors = get_smooth_prime(STATE, 100, 16)
     if len(p_factors) != len(set(p_factors)):
         continue
+    print(p, p_factors)
+    exit()
     # Smoothness should be different or some might encounter issues.
-    q, q_factors = get_smooth_prime(STATE, 1024, 17)
+    q, q_factors = get_smooth_prime(STATE, 1024, 30)
     if len(q_factors) != len(set(q_factors)):
         continue
     factors = p_factors + q_factors
-    if (
-        p * q
-        < 16763004472915557633230175624814455074956856667905565542796447948326418871300330852500532080456245842808580652369128373585091742182833612393876940318668669277604016483973620297730421220141605027342753918659838188553591949599747807965925656198307584085965694717049337050978520501504067840743011290697339736116627163640474694070784182605083768653631292283099859790133089202740076112121711929060091918022026247022263935941785960535137099745542807206852971082270223226855313240598172158911759885355225159679924530439529598307531357657223449481652906920465442875236920369072311672020985709663306757646987156831987157988767
-    ):
-        continue
 
     if e not in factors:
         break
@@ -87,13 +82,3 @@ if _DEBUG:
     for factor in q_factors:
         sys.stderr.write(f"    {factor.digits(16)},\n")
     sys.stderr.write(f"]\n\n")
-
-n = p * q
-
-m = math.lcm(p - 1, q - 1)
-d = pow(e, -1, m)
-
-c = pow(FLAG, e, n)
-
-print(f"n = {n.digits(16)}")
-print(f"c = {c.digits(16)}")
