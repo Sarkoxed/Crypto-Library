@@ -43,6 +43,9 @@
 - AES
     - implementation check, maybe c
 
+### Linear Cryptoanalisys
+- Kek
+
 ### ZKP
 - Imlement py_pairing and all this twisted stuff by myself
 - bulletproofs?
@@ -50,3 +53,8 @@
 ### Algebraic Things
 - number of els to the corresponding order
 - jordan general form + analyzing lfsr
+
+### TOOLS
+- smooth primes are mess
+- check the pseudoprime gen file
+- carmichael numbers file is ridiculous

@@ -65,9 +65,10 @@
     - All the possible orders in this group
     - Ring factorization
     - TODO: find the number of elements in the group s.t. their order is K | minimal_power
-- Jordan General Decomposition
-    - Get jordan general decomposition of a matrix over a finite field
+- matrices
+    - Get jordan General Decomposition of a matrix over a finite field
     - Find the matrix order with help of previous thing
+    - lfsr analysis with help of matrix order
 
 ### AES
 - CBC Mode
@@ -77,6 +78,8 @@
 - Ordinary AES implementation in python
 - Sbox gen implementation in c
 - Example of Linear sbox usage in aes
+- other_implementations
+    - open source implementations of aes
 
 ### RC4
 - oracle implemenation in python
@@ -89,6 +92,9 @@
     - 2nd round attack on rc4 IV||main_key
 - FMS attack on RC4
 - Special IV generation
+
+### Linear Cryptoanalisys
+- TODO
 
 
 ### Permutation Ciphers
@@ -107,6 +113,17 @@
 ### Based
 - Bacon cipher
 
+### ZKP
+- KZG
+    - KSG implementation from RealWorldCTF2023
+- coolstuff
+    - Emulated Field operations
+- PLONK
+    - plonk todo
+- sumcheck
+    - sumcheck protocol implementation TODO improve....
+
+
 ### TOOLS
 - Factorization methods
     - EC factorization
@@ -123,6 +140,11 @@
     - Euler's pattern to find primes
     - Brute
     - Sundaram
+- Carmichael Numbers
+    - Generating Carmichael Numbers
+    - Testing for Charmichaelness
+- Strong PseudoPrimes
+    - Generating Strong Pseudoprimes using Arnault algorithm!!!
 - Binary Search
 - Smooth Primes Creation
 - Interval Union
