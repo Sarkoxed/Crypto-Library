@@ -145,6 +145,9 @@
     - Testing for Charmichaelness
 - Strong PseudoPrimes
     - Generating Strong Pseudoprimes using Arnault algorithm!!!
+- Other
+    - Combinatorics
+    - Math
 - Binary Search
 - Smooth Primes Creation
 - Interval Union
