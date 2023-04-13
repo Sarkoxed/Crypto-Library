@@ -151,7 +151,7 @@
 - Binary Search
 - Smooth Primes Creation
 - Interval Union
-- Legandre symbol
+- Legendre symbol
 - use of gmp example
 - use of z3 example
 - use of cado-nfs example
