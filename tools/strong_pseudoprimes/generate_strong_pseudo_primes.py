@@ -17,7 +17,7 @@ from sage.all import (
 )
 
 from copy import copy, deepcopy
-from random import choice
+from random import choice, randint
 
 basis78 = list(prime_range(10000))
 
@@ -214,7 +214,7 @@ def generate(
 
 
 def generate_strong_pseudo_primes(
-    base_n,
+    bases,
     num_pf,
     scale=5,
     req_stop=50,
@@ -223,7 +223,7 @@ def generate_strong_pseudo_primes(
     step_Bound=2**20,
     m_r_Bound=64,
 ):
-    A = list(prime_range(base_n)) # may be changed to arbitrary bases
+    A = bases
     Sa = getSa(A)
     k1 = 1
     print("preps done")
@@ -248,6 +248,9 @@ def generate_strong_pseudo_primes(
 
 if __name__ == "__main__":
     n = 30
-    m = 5
-    k, pr, facs = generate_strong_pseudo_primes(n, m, 30, step=1)
+    m = 3
+    base = list(prime_range(n+1))
+    #base = [randint(1, 1000) for _ in range(10)]
+    k, pr, facs = generate_strong_pseudo_primes(base, m, step=1, scale=2)
     print(pr)
+    print(base)
