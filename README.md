@@ -74,7 +74,8 @@
 - CBC Mode
     - Padding Oracle attack implementation
 - GCM
-    - Ghash implementation(not mine)
+    - Ghash implementation in python
+    - pycryptodome ghash implementation
 - Ordinary AES implementation in python
 - Sbox gen implementation in c
 - Example of Linear sbox usage in aes
