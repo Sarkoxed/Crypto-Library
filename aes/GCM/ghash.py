@@ -1,57 +1,108 @@
 from Crypto.Util.number import bytes_to_long, long_to_bytes
+from Crypto.Cipher import AES
+from Crypto.Util.strxor import strxor
 
-def gf_2_128_mul(x, y):
-    assert x < (1 << 128)
-    assert y < (1 << 128)
-    res = 0
-    for i in range(127, -1, -1):
-        res ^= x * ((y >> i) & 1)  # branchless
-        x = (x >> 1) ^ ((x & 1) * 0xE1000000000000000000000000000000)
-    assert res < 1 << 128
-    return res
+def reverse(n):
+    return int('{:08b}'.format(n).zfill(128)[::-1], 2)
+
+
 
 class GHASH:
-    def __init__(self, zkey):
-        self.__auth_key = bytes_to_long(zkey)
+    tail = b""
+    mod = (1 << 128) | (1 << 7) | (1 << 2) | (1 << 1) | 1
+    x = 0
 
-        # precompute the table for multiplication in finite field
-        table = []  # for 8-bit
-        for i in range(16):
-            row = []
-            for j in range(256):
-                row.append(gf_2_128_mul(self.__auth_key, j << (8 * i)))
-            table.append(tuple(row))
-        self.__pre_table = tuple(table)
+    def __init__(self, key, iv):
+        cipher = AES.new(key, mode=AES.MODE_ECB)
+        H = cipher.encrypt(b"\x00" * 16)
+        self.H = self.bytes_to_gf(H)
+        # it seems that the higher bits -> lower in GF
 
-        self.prev_init_value = None  # reset
+        self.tail = b"\x00" * 8
 
-    def __times_auth_key(self, val):
-        res = 0
-        for i in range(16):
-            res ^= self.__pre_table[i][val & 0xFF]
-            val >>= 8
-        return res
-
-    def ghash(self, txt):
-        len_txt = len(txt)
-        # padding
-        if 0 == len_txt % 16:
-            data = txt
+        if len(iv) == 96 // 8:
+            iv += b"\x00\x00\x00\x01"
+            self.final = cipher.encrypt(iv)
         else:
-            data += txt + b'\x00' * (16 - len_txt % 16)
+            curlen = len(iv) * 8
+            padlen = (16 - (len(iv) % 16)) % 16
+            iv += b"\x00" * padlen
+            iv += b"\x00" * 8
+            iv += long_to_bytes(curlen, 8)
+            self.final = cipher.encrypt(self.hash(iv))
 
-        hash = 0
-        for i in range(len(data) // 16):
-            hash ^= bytes_to_long(data[i * 16: (i + 1) * 16])
-            hash = self.__times_auth_key(hash)
-        return long_to_bytes(hash)
+            self.x = 0
+            self.tail = b"\x00" * 8
 
-    def tag(self, txt):
-        len_txt = len(txt)
-        tag = bytes_to_long(self.ghash(txt))
-        tag ^= 8 * len_txt
-        tag = self.__times_auth_key(tag)
-        return long_to_bytes(tag)
+    def bytes_to_gf(self, b):
+        return reverse(bytes_to_long(b))
 
-gh = GHASH(b'\xf0' * 16)
-print(gh.tag(b'\xa0' * 16))
+    def gf_to_bytes(self, b):
+        return long_to_bytes(reverse(b), 16)
+
+    def mult(self, a, b):
+        p = 0
+        while a > 0:
+            if a & 1:
+                p = p ^ b
+            a >>= 1
+            b <<= 1
+            if b & (1 << 128):
+                b ^= self.mod
+        return p
+
+    def update(self, adata):
+        self.tail = long_to_bytes(len(adata) * 8, 8)
+        padlen = (16 - (len(adata) % 16)) % 16
+        adata = adata + b"\x00" * padlen
+
+        for i in range(0, len(adata), 16):
+            block = self.bytes_to_gf(adata[i: i + 16])
+            Xi = block ^ self.x
+            Xi = self.mult(Xi, self.H)
+            self.x = Xi
+
+    def hash(self, data):
+        self.tail += long_to_bytes(len(data) * 8, 8)
+        padlen = (16 - (len(data) % 16)) % 16
+        data = data + b"\x00" * padlen
+
+        for i in range(0, len(data), 16):
+            block = self.bytes_to_gf(data[i: i + 16])
+            Xi = block ^ self.x
+            Xi = self.mult(Xi, self.H)
+            self.x = Xi
+
+        return self.gf_to_bytes(Xi)
+
+    def get_tag(self):
+        block = reverse(bytes_to_long(self.tail))
+        Xi = block ^ self.x
+        Xi = self.mult(Xi, self.H)
+        self.x = Xi
+
+        tag = self.gf_to_bytes(Xi)
+        hashedtag = tag
+        tag = strxor(tag, self.final)
+        return tag
+
+if __name__ == "__main__":
+    from os import urandom
+    from random import randint
+
+    for i in range(10000):
+        key = urandom(16)
+        iv = urandom(randint(1, 16))
+        pt = urandom(randint(1, 100))
+        additional = urandom(randint(1, 100))
+       
+
+        cipher = AES.new(key, mode=AES.MODE_GCM, nonce=iv)
+        cipher.update(additional)
+        ct, tag = cipher.encrypt_and_digest(pt)
+
+        gh = GHASH(key, iv)
+        gh.update(additional)
+        gh.hash(ct)
+        tag_own = gh.get_tag()
+        assert tag_own == tag
