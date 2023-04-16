@@ -1,27 +1,22 @@
 #!/usr/bin/python
 
-from binascii import hexlify
-from gmpy2 import *
+import gmpy2
 import math
 import os
 import sys
 
-if sys.version_info < (3, 9):
-    math.gcd = gcd
-    math.lcm = lcm
-
 _DEBUG = True
 
-SEED = mpz(hexlify(os.urandom(32)).decode(), 16)
-STATE = random_state(SEED)
+SEED = gmpy2.mpz(os.urandom(32).hex(), 16)
+STATE = gmpy2.random_state(SEED)
 
 
 def get_prime(state, bits):
-    return next_prime(mpz_urandomb(state, bits) | (1 << (bits - 1)))
+    return gmpy2.next_prime(gmpy2.mpz_urandomb(state, bits) | (1 << (bits - 1)))
 
 
 def get_smooth_prime(state, bits, smoothness=16):
-    p = mpz(2)
+    p = gmpy2.mpz(2)
     p_factors = [p]
     while p.bit_length() < bits - 2 * smoothness:
         factor = get_prime(state, smoothness)
@@ -40,7 +35,7 @@ def get_smooth_prime(state, bits, smoothness=16):
         if tmpp.bit_length() > bits:
             bitcnt -= 1
             continue
-        if is_prime(tmpp + 1):
+        if gmpy2.is_prime(tmpp + 1):
             p_factors.append(prime1)
             p_factors.append(prime2)
             p = tmpp + 1
@@ -53,32 +48,16 @@ def get_smooth_prime(state, bits, smoothness=16):
 
 e = 0x10001
 
-while True:
-    p, p_factors = get_smooth_prime(STATE, 100, 16)
-    if len(p_factors) != len(set(p_factors)):
-        continue
-    print(p, p_factors)
-    exit()
-    # Smoothness should be different or some might encounter issues.
-    q, q_factors = get_smooth_prime(STATE, 1024, 30)
-    if len(q_factors) != len(set(q_factors)):
-        continue
-    factors = p_factors + q_factors
+if __name__ == "__main__":
+    while True:
+        p, p_factors = get_smooth_prime(STATE, 1024, 16)
+        if len(p_factors) != len(set(p_factors)):
+            continue
 
-    if e not in factors:
-        break
+        q, q_factors = get_smooth_prime(STATE, 1024, 30)
+        if len(q_factors) != len(set(q_factors)):
+            continue
+        factors = p_factors + q_factors
 
-if _DEBUG:
-    import sys
-
-    sys.stderr.write(f"p = {p.digits(16)}\n\n")
-    sys.stderr.write(f"p_factors = [\n")
-    for factor in p_factors:
-        sys.stderr.write(f"    {factor.digits(16)},\n")
-    sys.stderr.write(f"]\n\n")
-
-    sys.stderr.write(f"q = {q.digits(16)}\n\n")
-    sys.stderr.write(f"q_factors = [\n")
-    for factor in q_factors:
-        sys.stderr.write(f"    {factor.digits(16)},\n")
-    sys.stderr.write(f"]\n\n")
+        if e not in factors:
+            break
