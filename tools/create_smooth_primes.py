@@ -4,30 +4,29 @@ import gmpy2
 import math
 import os
 import sys
-
-_DEBUG = True
-
-SEED = gmpy2.mpz(os.urandom(32).hex(), 16)
-STATE = gmpy2.random_state(SEED)
+from Crypto.Util.number import getPrime
+from random import randint
 
 
-def get_prime(state, bits):
-    return gmpy2.next_prime(gmpy2.mpz_urandomb(state, bits) | (1 << (bits - 1)))
+def get_prime(bits):
+    #bits = randint(2, bits)
+    return getPrime(bits)
+    # gmpy2.next_prime(gmpy2.mpz_urandomb(state, bits) | (1 << (bits - 1)))
 
 
-def get_smooth_prime(state, bits, smoothness=16):
-    p = gmpy2.mpz(2)
+def get_smooth_prime(bits, smoothness=16):
+    p = 2
     p_factors = [p]
     while p.bit_length() < bits - 2 * smoothness:
-        factor = get_prime(state, smoothness)
+        factor = get_prime(smoothness)
         p_factors.append(factor)
         p *= factor
 
     bitcnt = (bits - p.bit_length()) // 2
 
     while True:
-        prime1 = get_prime(state, bitcnt)
-        prime2 = get_prime(state, bitcnt)
+        prime1 = get_prime(bitcnt)
+        prime2 = get_prime(bitcnt)
         tmpp = p * prime1 * prime2
         if tmpp.bit_length() < bits:
             bitcnt += 1
@@ -49,15 +48,9 @@ def get_smooth_prime(state, bits, smoothness=16):
 e = 0x10001
 
 if __name__ == "__main__":
+    n = int(input("n: "))
     while True:
-        p, p_factors = get_smooth_prime(STATE, 1024, 16)
-        if len(p_factors) != len(set(p_factors)):
-            continue
-
-        q, q_factors = get_smooth_prime(STATE, 1024, 30)
-        if len(q_factors) != len(set(q_factors)):
-            continue
-        factors = p_factors + q_factors
-
-        if e not in factors:
+        p, p_factors = get_smooth_prime(n, 18)
+        if len(set(p_factors)) == len(p_factors):
             break
+    print(p)
