@@ -55,6 +55,5 @@
 - jordan general form + analyzing lfsr
 
 ### TOOLS
-- smooth primes are mess
 - check the pseudoprime gen file
 - carmichael numbers file is ridiculous
