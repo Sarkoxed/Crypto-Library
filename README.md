@@ -154,6 +154,7 @@
 - Finding roots of a polynomial modulo prime power
 - Interval Union
 - Legendre symbol
+- Base n function
 - use of gmp example
 - use of z3 example
 - use of cado-nfs example
