@@ -57,3 +57,4 @@
 ### TOOLS
 - check the pseudoprime gen file
 - carmichael numbers file is ridiculous
+- polynomial roots modulo prime power debug or test or smth

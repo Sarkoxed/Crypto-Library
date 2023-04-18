@@ -151,6 +151,7 @@
     - Math
 - Binary Search
 - Smooth Primes Creation
+- Finding roots of a polynomial modulo prime power
 - Interval Union
 - Legendre symbol
 - use of gmp example
