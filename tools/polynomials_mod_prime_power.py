@@ -1,4 +1,4 @@
-from sage.all import Zmod, GF, PolynomialRing, ZZ, var, gcd
+from sage.all import Zmod, GF, PolynomialRing, ZZ, var, gcd, Zp
 
 
 def find_root(cfs, p, exp, comp_bound=10**8):
@@ -32,7 +32,7 @@ def find_root(cfs, p, exp, comp_bound=10**8):
                 a = -(zz_poly(x=r) // p**cure)
                 b = pow(
                     zz_poly.derivative()(x=r), -1, p
-                )  # need to handle the case when derivative is zero, or not
+                )
                 t = (a * b) % p
                 newroots.append(int((r + t * p**cure) % p ** (cure + 1)))
             elif (zz_poly(x=r) // p**cure) % p == 0:
@@ -44,9 +44,17 @@ def find_root(cfs, p, exp, comp_bound=10**8):
         roots = newroots
         cure += 1
         poly = zz_poly.change_ring(Zmod(p**cure))
-    print(roots)
+#    print(roots)
     return roots
+# TODO compare to https://github.com/gmossessian/Hensel
 
+def padic_roots(cfs, p, e):
+    cfs = [Zp(p, e)(c) for c in cfs]
+    R = Zp(p, e)
+    P = PolynomialRing(R, 'x')
+    poly = P(cfs)
+#    print(poly)
+    return [ZZ(x) for x, _ in poly.roots()]
 
 a, b, c = (
     3725667080359828237882050012075826816955394805983654212498828336484384511666451481428068119075593185083180437875735363631436104722896976357798815848393713,
@@ -54,4 +62,15 @@ a, b, c = (
     8140090762026074454436391565007844730475305319076269374784087949381460619403420532213096947981591769170920654132599353795767443000632094692947790049687091,
 )
 
-print(find_root([c, b, a], 2, 512))
+roots_hensel = find_root([c, b, a], 2, 512)
+print(roots_hensel)
+
+for r in roots_hensel:
+    assert (a * r**2 + b * r + c) % 2**512 == 0
+
+roots_padic = padic_roots([c, b, a], 2, 512)
+print(roots_padic)
+
+for r in roots_padic:
+    assert (a * r**2 + b * r + c) % 2**512 == 0
+
