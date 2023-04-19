@@ -16,7 +16,7 @@ def MOV(P, Q, E, G, l: int):
             assert x not in GF(N - 1) or y not in GF(N - 1)
         except:
             continue
-        T1 = (N / l) * T
+        T1 = (N / l) * T # TODO maybe l**2
         if T1.is_infinity():
             continue
         a = Weil_pairing(P, T1, E, l)
