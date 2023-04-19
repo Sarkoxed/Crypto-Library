@@ -152,6 +152,7 @@
 - Binary Search
 - Smooth Primes Creation
 - Finding roots of a polynomial modulo prime power
+- Solving DLP modulo prime power
 - Interval Union
 - Legendre symbol
 - Base n function
