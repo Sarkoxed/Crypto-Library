@@ -1,7 +1,16 @@
 from random import Random
 
 from Crypto.Util.number import long_to_bytes
-from sage.all import (GF, EllipticCurve, Matrix, PolynomialRing, gcd, var, vector)
+from sage.all import (
+    GF,
+    EllipticCurve,
+    Matrix,
+    PolynomialRing,
+    gcd,
+    var,
+    vector,
+    identity_matrix,
+)
 
 from ecdsa import hash, keygen, sign, verify
 from testparams import a, b, p, q
@@ -33,8 +42,55 @@ def repeated_nonce(pk, sk, m1, m2):
     return d == sk
 
 
-def lattice_based(pk, sk, ms):
-    return None
+def lattice_based(pk, sk, ms, bleak, m=300):
+    G, Q, q = pk
+    d = sk
+
+    ks, rs, ss, leaks = [], [], [], []
+    for i in range(m + 1):
+        mi = long_to_bytes(ms[i])
+        sig, k = sign(mi, pk, sk, Random().randint, True)
+        ms[i] = hash(mi, q.bit_length() // 8)
+        ks.append(k)
+        rs.append(sig[0])
+        ss.append(sig[1])
+        leaks.append(k % (1 << bleak))
+
+    rm, sm = rs[m], ss[m]
+    hm = ms[m]
+    km = leaks[m]
+    tus = []
+    for i in range(m):
+        ri, si = rs[i], ss[i]
+        hi = ms[i]
+        ki = leaks[i]
+        ti = (-pow(si, -1, q) * sm * ri * pow(rm, -1, q)) % q
+        ui = (pow(si, -1, q) * ri * hm * pow(rm, -1, q) - pow(si, -1, q) * hi) % q
+        assert (ks[i] + ks[m] * ti + ui) % q == 0
+        ui = ((ui + ki + ti * km) * pow(2, -16, q)) % q
+        tus.append((ti, ui))
+
+    B = q * identity_matrix(m + 2)
+    B[m, m] = 1
+    K = q // (2**bleak)
+    B[m + 1, m + 1] = K
+
+    for i in range(m):
+        ti, ui = tus[i]
+        B[m, i] = ti
+        B[m + 1, i] = ui
+
+    M = B.BKZ()  # params?
+
+    ds = []
+    for r in M:
+        if r[-1] == K:
+            upper_m = r[-2]
+            km = upper_m * 2**bleak + km
+            di = (pow(rm, -1, q) * (sm * km - ms[m])) % q
+            ds.append(di)
+
+    return d in ds
 
 
 class recg:
@@ -60,7 +116,7 @@ def recurrence_gen_based(
     rs, ss, ks = [], [], []
     m = long_to_bytes(ms[0])
     sig, k = sign(m, pk, sk, Random().randint, True)
-    ms[0] = hash(m, q.bit_length()//8)
+    ms[0] = hash(m, q.bit_length() // 8)
     ks.append(k)
     rs.append(sig[0])
     ss.append(sig[1])
@@ -76,7 +132,7 @@ def recurrence_gen_based(
     for i in range(1, m):
         m = long_to_bytes(ms[i])
         sig = sign(m, pk, sk, R.next)
-        ms[i] = hash(m, q.bit_length()//8)
+        ms[i] = hash(m, q.bit_length() // 8)
         rs.append(sig[0])
         ss.append(sig[1])
 
@@ -116,7 +172,9 @@ def recurrence_gen_based(
     else:
         k1 = kx[-2]
         k2 = kx[-1]
-        final_poly = P(sum(b * gc * k1**j for j, b in zip(range(n + 1), bx)) - k2 * gc)
+        final_poly = P(
+            sum(b * gc * k1**j for j, b in zip(range(n + 1), bx)) - k2 * gc
+        )
         ds = [r[0] for r in final_poly.roots()]
         return d in ds
 
@@ -204,46 +262,60 @@ def linear_congr(
 def truly_random_gen_based(pk, sk, ms, N):
     return None
 
+
 import time
+
+
 def timing(f):
     def wrap(*args, **kwargs):
         time1 = time.time()
         ret = f(*args, **kwargs)
         time2 = time.time()
-        print('{:s} function took {:.3f} ms'.format(f.__name__, (time2-time1)*1000.0))
+        print(
+            "{:s} function took {:.3f} ms".format(f.__name__, (time2 - time1) * 1000.0)
+        )
 
         return ret
+
     return wrap
+
 
 if __name__ == "__main__":
     pk, sk = keygen(p, a, b, q)
 
     print("Repeated nonce attack: ")
-    print(timing(repeated_nonce)(pk, sk, b'aboba', b'kickapoo'))
+    print(timing(repeated_nonce)(pk, sk, b"aboba", b"kickapoo"))
     print()
 
-    n = 40
-
-    print("Linear relation 2n + 1:")
-    m = 2 * n + 1
-    ms = [Random().randint(0, q) for _ in range(m)]
-    print(timing(linear_congr)(pk, sk, ms, n, False))
+    print("LLL:")
+    m = 300
+    ms = [Random().randint(0, q) for _ in range(m + 1)]
+    print(timing(lattice_based)(pk, sk, ms, m, 3))
     print()
 
-    print("Linear relation 2n + 2 gcd:")
-    m = 2 * n + 2
-    ms = [Random().randint(0, q) for _ in range(m)]
-    print(timing(linear_congr)(pk, sk, ms, n, True))
-    print()
 
-    print("Polynomial congruence n + 3:")
-    m = n + 3
-    ms = [Random().randint(0, q) for _ in range(m)]
-    print(timing(recurrence_gen_based)(pk, sk, ms, n, False))
-    print()
-
-    print("Polynomial congruence n + 4 gcd:")
-    m = n + 4
-    ms = [Random().randint(0, q) for _ in range(m)]
-    print(timing(recurrence_gen_based)(pk, sk, ms, n, True))
-    print()
+#    n = 40
+#
+#    print("Linear relation 2n + 1:")
+#    m = 2 * n + 1
+#    ms = [Random().randint(0, q) for _ in range(m)]
+#    print(timing(linear_congr)(pk, sk, ms, n, False))
+#    print()
+#
+#    print("Linear relation 2n + 2 gcd:")
+#    m = 2 * n + 2
+#    ms = [Random().randint(0, q) for _ in range(m)]
+#    print(timing(linear_congr)(pk, sk, ms, n, True))
+#    print()
+#
+#    print("Polynomial congruence n + 3:")
+#    m = n + 3
+#    ms = [Random().randint(0, q) for _ in range(m)]
+#    print(timing(recurrence_gen_based)(pk, sk, ms, n, False))
+#    print()
+#
+#    print("Polynomial congruence n + 4 gcd:")
+#    m = n + 4
+#    ms = [Random().randint(0, q) for _ in range(m)]
+#    print(timing(recurrence_gen_based)(pk, sk, ms, n, True))
+#    print()
