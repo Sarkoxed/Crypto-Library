@@ -24,7 +24,7 @@
 - Smart attack
 - Babai
 - ecdsa attacks
-    - LLL
+    - LLL higher bits + middle
     - Random things
 
 ### Lattice Cryptography

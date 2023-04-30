@@ -22,6 +22,10 @@
 - ECDH implementation in python
 - ecdsa
     - Elliptic Curve DSA implementation in python
+    - Linear Congruece attack
+    - Polynomial Congruence attack
+    - Repeated Nonce attack
+    - Lattice Based attack(lower bits)
 - Anomalous Curves
     - Smart attack implementation in python
 - MOV
