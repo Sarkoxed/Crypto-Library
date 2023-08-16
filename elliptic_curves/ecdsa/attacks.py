@@ -67,7 +67,7 @@ def lattice_based(pk, sk, ms, bleak, m=300):
         ti = (-pow(si, -1, q) * sm * ri * pow(rm, -1, q)) % q
         ui = (pow(si, -1, q) * ri * hm * pow(rm, -1, q) - pow(si, -1, q) * hi) % q
         assert (ks[i] + ks[m] * ti + ui) % q == 0
-        ui = ((ui + ki + ti * km) * pow(2, -16, q)) % q
+        ui = ((ui + ki + ti * km) * pow(2, -bleak, q)) % q
         tus.append((ti, ui))
 
     B = q * identity_matrix(m + 2)
@@ -290,7 +290,7 @@ if __name__ == "__main__":
     print("LLL:")
     m = 300
     ms = [Random().randint(0, q) for _ in range(m + 1)]
-    print(timing(lattice_based)(pk, sk, ms, m, 3))
+    print(timing(lattice_based)(pk, sk, ms, 3, m))
     print()
 
 
