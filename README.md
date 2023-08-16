@@ -15,6 +15,8 @@
     - Birthday Paradox based collision algorithm implementation in python
 - Pollard Rho
     - Pollard Rho algorithm implementation in python(Including Field extensions)
+- Auxialry Inputs
+    - attack todo
 
 ### Elliptic Curve Cryptography
 - ECC implementation in python
@@ -22,10 +24,11 @@
 - ECDH implementation in python
 - ecdsa
     - Elliptic Curve DSA implementation in python
-    - Linear Congruece attack
-    - Polynomial Congruence attack
-    - Repeated Nonce attack
-    - Lattice Based attack(lower bits)
+    - attacks.py:
+        - Linear Congruece attack
+        - Polynomial Congruence attack
+        - Repeated Nonce attack
+        - Lattice Based attack(lower bits)
 - Anomalous Curves
     - Smart attack implementation in python
 - MOV
@@ -127,7 +130,10 @@
     - plonk todo
 - sumcheck
     - sumcheck protocol implementation TODO improve....
+- protostar/
 
+### Polynomials
+- Grobner basis implentation
 
 ### TOOLS
 - Factorization methods
@@ -150,9 +156,12 @@
     - Testing for Charmichaelness
 - Strong PseudoPrimes
     - Generating Strong Pseudoprimes using Arnault algorithm!!!
-- Other
+- Other - some thoughts, theories and algorithms of my own implementation
     - Combinatorics
     - Math
+- cvc5
+    - cvc5 ff use case
+    - ecc solver(lol)
 - Binary Search
 - Smooth Primes Creation
 - Finding roots of a polynomial modulo prime power
@@ -163,3 +172,4 @@
 - use of gmp example
 - use of z3 example
 - use of cado-nfs example
+- x509cert_help.py - cert generation in python

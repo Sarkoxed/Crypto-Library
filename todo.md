@@ -13,6 +13,7 @@
 - Pollard dlp improve
 - collision algos improve
 - index calculus
+- auxilary inputs
 
 ### RSA
 - coppersmith. Bivariate too you little fuck.
@@ -49,6 +50,7 @@
 ### ZKP
 - Imlement py_pairing and all this twisted stuff by myself
 - bulletproofs?
+- protostar
 
 ### Algebraic Things
 - number of els to the corresponding order
@@ -61,3 +63,6 @@
 
 ### PRNG
 - well...
+
+### polynomials
+- finish grobner basis
