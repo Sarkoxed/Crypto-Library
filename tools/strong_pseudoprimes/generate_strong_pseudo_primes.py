@@ -247,9 +247,10 @@ def generate_strong_pseudo_primes(
 
 
 if __name__ == "__main__":
-    n = 30
+    n = 64
     m = 3
     base = list(prime_range(n+1))
+    print(len(base))
     #base = [randint(1, 1000) for _ in range(10)]
     k, pr, facs = generate_strong_pseudo_primes(base, m, step=1, scale=2)
     print(pr)
