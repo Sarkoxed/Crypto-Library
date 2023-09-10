@@ -134,6 +134,8 @@
 
 ### Polynomials
 - Grobner basis implentation
+- symmetric_polynomials
+    - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
 
 ### TOOLS
 - Factorization methods
