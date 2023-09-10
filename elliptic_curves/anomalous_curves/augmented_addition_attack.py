@@ -16,9 +16,11 @@ def mul(P, n):
 def a0(P, Q):
     if P.is_zero() or Q.is_zero() or P == -Q:
         return 0
+
     if P == Q:
         t = P.curve().a4()
         return (3 * P[0] ** 2 + t) * pow(2 * P[1], -1)
+
     return (P[1] - Q[1]) * pow(P[0] - Q[0], -1)
 
 
@@ -46,5 +48,3 @@ R3, gamma = add((P, alpha), (Q, beta))
 R4, tetta = mul((P + Q, G(0)), p)
 
 R5, sigma = add((Q, beta), (P, alpha))
-
-print(gamma, sigma)
