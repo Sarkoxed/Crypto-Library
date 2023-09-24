@@ -107,6 +107,8 @@
 
 ### Permutation Ciphers
 - Rail Fence cipher
+- Symmetric Group
+    - Sqrt in S(n)
 
 ### Simple substitution
 - Shift cipher + analysis
