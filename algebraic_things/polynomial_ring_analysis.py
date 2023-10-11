@@ -146,7 +146,7 @@ def get_ring_structure_dumb(Q):
     return els
 
 def req_numbers(orders, K): # find all the elements s.t. lcm(a1, a2, ..., an) == K and ai | orders[i]
-
+    pass
 
 def number_of_els(free_args, zpows, k):
     pos_orders = [gcd(x, k) for x in free_args if gcd(x, k) == 1]
