@@ -20,6 +20,9 @@
 
 ### Elliptic Curve Cryptography
 - ECC implementation in python
+- Edwards Curves implementation in python
+- Montgomery Curves implementation in python
+- equivalence.py - switch between curves
 - Weil Pairing implementation in python
 - ECDH implementation in python
 - ecdsa
