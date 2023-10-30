@@ -60,7 +60,8 @@
 - check the pseudoprime gen file
 - carmichael numbers file is ridiculous
 - polynomial roots modulo prime power debug or test or smth
-- math - implement some algos from my textbook. sum_of_squares doesn't work properly
+- math - implement some algos from my textbook. sum_of_squares doesn't work properl- Cheng's factorization method
+- ROCA
 
 ### PRNG
 - well...

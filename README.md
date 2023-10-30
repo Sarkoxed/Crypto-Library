@@ -150,7 +150,11 @@
 
 ### TOOLS
 - Factorization methods
-    - EC factorization
+    - 4p1factorization
+        - Cheng's method - TODO
+        - Simplified Cheng's method
+
+    - EC(Lenstra) factorization
     - Fermatt Factorization
     - Naive Factorization
     - Pollard P Factorization
