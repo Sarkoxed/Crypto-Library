@@ -17,6 +17,8 @@
     - Pollard Rho algorithm implementation in python(Including Field extensions)
 - Auxialry Inputs
     - attack todo
+- prime_power
+    - Discrete log in the rings $\frac{ZZ}{p^sZZ}$ up to the power $p^{s-1}, s \ge 2$
 
 ### Elliptic Curve Cryptography
 - ECC implementation in python
@@ -122,6 +124,10 @@
 
 ### HASH Functions
 - sha1 implementation
+    - length_extension.py - le attack
+
+- murmurhash3 implementations(128) (python, cpp)
+    - collision/zero finder
 
 ### Based
 - Bacon cipher
