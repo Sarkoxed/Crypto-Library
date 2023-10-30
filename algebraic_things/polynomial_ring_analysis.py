@@ -35,7 +35,7 @@ def get_ring_orders_dumb(Q, order):  # based
     return orders
 
 
-def get_ring_order(Q):
+def get_ring_order(Q): # |F[x] / (f1^e1 * f2^e2 ... * fk^ek)| = \prod p^(deg(fi)*(ei - 1)) * (p^deg(fi) - 1)
     facs = list(factor(Q.modulus()))
     p = Q.base_ring().characteristic()
 
@@ -46,7 +46,10 @@ def get_ring_order(Q):
     return product(ords)
 
 
-def get_ring_orders(Q):
+def get_ring_orders(Q): # Orders in subring F[x] / (fi^ei) are the divisors of p^r * (p^n - 1) 
+                        # where r is the smallest number such that p^r <= ei < p^(r + 1)
+                        # https://math.stackexchange.com/questions/4666368/orders-of-all-the-elements-in-polynomial-quotient-ring/4666790#4666790
+                        # so all the orders are the divisors of LCM(p^ni - 1, p^max(ri)), note ri != ni * (ei - 1) all the time
     facs = list(factor(Q.modulus()))
     p = Q.base_ring().characteristic()
     ns, es = [f.degree() for f, _ in facs], [e for _, e in facs]
@@ -62,16 +65,16 @@ def get_ring_orders(Q):
     return divisors(lcm([pow(p, n) - 1 for n in ns] + [pow(p, R)]))
 
 
-def get_ring_orders_aboba(Q):
+def get_ring_orders2(Q): # Second method using the exact subring order
     facs = list(factor(Q.modulus()))
     p = Q.base_ring().characteristic()
     ns, es = [f.degree() for f, _ in facs], [e for _, e in facs]
 
-    ords = [get_subring_orders_aboba(p, n, e) for n, e in zip(ns, es)]
+    ords = [get_subring_orders(p, n, e) for n, e in zip(ns, es)]
     return divisors(lcm(ords))
 
 
-def get_subring_orders_aboba(p, n, e):
+def get_subring_orders(p, n, e): # https://math.stackexchange.com/questions/4666368/orders-of-all-the-elements-in-polynomial-quotient-ring/4666790#4666790
     xs = [p**n - 1]
     i = 0
     while e > pow(p, i):
@@ -79,7 +82,7 @@ def get_subring_orders_aboba(p, n, e):
             ceil(e / pow(p, i))
             - 2 * ceil(e / pow(p, (i + 1)))
             + ceil(e / pow(p, (i + 2)))
-        )
+        ) # degree of the inner product of (Z_p^i)^s
         i += 1
         if s != 0:
             xs.append(pow(p, i))
