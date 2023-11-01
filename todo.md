@@ -27,6 +27,7 @@
 - ecdsa attacks
     - LLL higher bits + middle
     - Random things
+- Mongomery ladder
 
 ### Lattice Cryptography
 - ntru signature complete
