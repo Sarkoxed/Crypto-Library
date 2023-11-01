@@ -110,6 +110,9 @@
 - TODO
 
 
+### LFSR
+- lfsr decomposition
+
 ### Permutation Ciphers
 - Rail Fence cipher
 - Symmetric Group
