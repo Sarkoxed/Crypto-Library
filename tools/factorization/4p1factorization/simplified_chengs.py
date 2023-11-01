@@ -5,6 +5,7 @@ from division_polynomial import psi_odd_cached, init_cache_odd
 import sys
 # TODO hilbert poly impl
 
+# TODO could do it in ZZ I guess
 def extended_euclides(a,b,n):
     r0 = a; r1 = b
     s0 = 1; s1 = 0

@@ -1,4 +1,4 @@
-# todo: why e.division_polynomial() is not the same in sage
+# TODO: why e.division_polynomial() is not the same in sage
 def psi(a, b, x, n, y): # too slow
     if n == 0:
         return 0
