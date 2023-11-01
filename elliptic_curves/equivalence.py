@@ -26,7 +26,9 @@ def montgomery_to_weierstrass_point(P: MPoint):
 
     x = g(P.x) / g(P.E.b) + g(P.E.a) / g(3 * P.E.b)
     y = g(P.y) / g(P.E.b)
-    return E((x, y)) def edwards_to_montgomery_curve(Ed: Edwards):
+    return E((x, y)) 
+
+def edwards_to_montgomery_curve(Ed: Edwards):
     a = (2 * (Ed.a + Ed.d) * pow(Ed.a - Ed.d, -1, Ed.p)) % Ed.p
     b = (4 * pow(Ed.a - Ed.d, -1, Ed.p)) % Ed.p
     return Montgomery(Ed.p, b, a)
