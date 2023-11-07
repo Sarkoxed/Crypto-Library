@@ -13,7 +13,6 @@ def find_root(cfs, p, exp, comp_bound=10**8):
         poly = P(cfs)
 
     roots = []
-    print(roots)
     if cure == 1:
         roots = poly.roots()
         if len(roots) == 0:

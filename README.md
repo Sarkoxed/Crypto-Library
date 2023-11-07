@@ -66,21 +66,10 @@
     - NTRU implemntation in python
     - NTRUMLS implementation in python
 
-### Integer Relation
-- Algebraic Roots recovery using LLL(square and cubic)
-- Coppersmith attacks
-- Finding an Algebraic relation using sage
-
-### Algebraic Things
-- Ring structure of polynomial quotient ring
-    - Order of a multplicative subgroup
-    - All the possible orders in this group
-    - Ring factorization
-    - TODO: find the number of elements in the group s.t. their order is K | minimal_power
-- matrices
-    - Get jordan General Decomposition of a matrix over a finite field
-    - Find the matrix order with help of previous thing
-    - lfsr analysis with help of matrix order
+- Integer Relation
+    - Algebraic Roots recovery using LLL(square and cubic)
+    - Coppersmith attacks
+    - Finding an Algebraic relation using sage
 
 ### AES
 - CBC Mode
@@ -94,24 +83,26 @@
 - other_implementations
     - open source implementations of aes
 
-### RC4
-- oracle implemenation in python
-- RC4 cipher implementation in python
-- 1st Round Attack on RC4
-    - 1st round attack on rc4 IV||main_key
-    - 1st round attack on rc4 main_key||IV
-    - Chosen IV attack on rc4
-- 2nd Round Attack on RC4
-    - 2nd round attack on rc4 IV||main_key
-- FMS attack on RC4
-- Special IV generation
+### Stream Ciphers
+
+- RC4
+    - oracle implemenation in python
+    - RC4 cipher implementation in python
+    - 1st Round Attack on RC4
+        - 1st round attack on rc4 IV||main_key
+        - 1st round attack on rc4 main_key||IV
+        - Chosen IV attack on rc4
+    - 2nd Round Attack on RC4
+        - 2nd round attack on rc4 IV||main_key
+    - FMS attack on RC4
+    - Special IV generation
+- LFSR
+    - lfsr decomposition
+
 
 ### Linear Cryptoanalisys
 - TODO
 
-
-### LFSR
-- lfsr decomposition
 
 ### Permutation Ciphers
 - Rail Fence cipher
@@ -146,12 +137,24 @@
     - sumcheck protocol implementation TODO improve....
 - protostar/
 
-### Polynomials
-- Grobner basis implentation
-- symmetric_polynomials
-    - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
-
 ### TOOLS
+
+- Algebraic Things
+    - Ring structure of polynomial quotient ring
+        - Order of a multplicative subgroup
+        - All the possible orders in this group
+        - Ring factorization
+        - TODO: find the number of elements in the group s.t. their order is K | minimal_power
+    - matrices
+        - Get jordan General Decomposition of a matrix over a finite field
+        - Find the matrix order with help of previous thing
+        - lfsr analysis with help of matrix order
+    - Polynomials
+        - Groebner basis implentation
+        - symmetric_polynomials
+            - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
+
+
 - Factorization methods
     - 4p1factorization
         - Cheng's method - TODO
