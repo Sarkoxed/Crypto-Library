@@ -45,30 +45,5 @@ def freq(s: str):
         d1[i] = j / len(s)
 
 
-#    ----------------------------------------
-
-
-def main():
-    if len(argv) == 1:
-        print("--help for help")
-    elif argv[1] == "help":
-        print("enc <plain> <rot>")
-        print("dec <cip> <rot>")
-        print("brute <cip>")
-        print("freq <cip>")
-        print("brfreq <cip>")
-    elif argv[1] == "enc":
-        print(encrypt(argv[2], int(argv[3])))
-    elif argv[1] == "dec":
-        print(decrypt(argv[2], int(argv[3])))
-    elif argv[1] == "brute":
-        print(brute(argv[2]))
-
-
-#    elif(argv[1] == "freq"):
-#        freq(argv[2])
-#    elif(argv[1] == "brfreq"):
-#        brfreq(argv[2])
-
 if __name__ == "__main__":
     main()

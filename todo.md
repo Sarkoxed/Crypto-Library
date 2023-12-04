@@ -4,11 +4,6 @@
 - is_prime AKS?
 - integer relation algorithms implementation or fu use
 
-### Based
-- frequency analysis
-- classes for ciphers
-- sha's
-
 ### DLP
 - Pollard dlp improve
 - collision algos improve
