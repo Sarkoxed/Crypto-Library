@@ -1,4 +1,4 @@
-from sage.all import *
+from sage.all import RR, GF, oo
 
 
 class EC:
@@ -57,21 +57,7 @@ class EC:
                     res.append(p)
         return res, len(res)
 
-    #  it doesn't work you dumbass
-    # def get_naive_order_v0(E: dict, K=RR) -> int:
-    #    n = 1
-    #    flag = K.order() % 4 == 3
-    #    for i in range(K.order()):
-    #        y_coord_sq = K(i^3 + E["a"]*i + E["b"])
-    #        if(y_coord_sq == 0 or (not flag and y_coord_sq == 1)):
-    #            n += 1
-    #            continue
-    #        leg_sym = pow(y_coord_sq, (K.order() - 1)//2, K.order())
-    #        if leg_sym == 1:
-    #            n += 2
-    #    return n
-
-    def get_some_point(self):
+    def random_point(self):
         K = self._K
         while True:
             i = K.random_element()
@@ -79,24 +65,9 @@ class EC:
             leg_sym = y_coord_sq ** ((K.order() - 1) // 2)
 
             if leg_sym == 1:
-                y = K(y_coord_sq).nth_root(2)
+                y = K(y_coord_sq).sqrt()
                 P = ECPoint(i, y, 1, self)
                 return P
-
-    def get_naive_order(self, P):
-        K = self._K
-
-        a1, a2, a3, a4, a6 = self.tup()
-        if K.order() % 4 == 3 and a4 != 0 and all(x == 0 for x in [a1, a2, a3, a6]):
-            return K.order() + 1
-
-        if P.is_infinity():
-            P = self.get_some_point()
-
-        for _ in range(-2 * floor(sqrt(K.order())), 2 * ceil(sqrt(K.order()))):
-            order = K.order() + 1 + _
-            if (order * P).is_infinity():
-                return order
 
     @staticmethod
     def rec_ord(a, b, p, n):

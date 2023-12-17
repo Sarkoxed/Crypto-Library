@@ -22,7 +22,7 @@ $y_r = l * (2 * x_p + x_q + a) - b * l^3 - y_p$
 
 # Edwards
 
-$a * x^2 + y&2 = c^2 * (1 + d * x^2 * y^2)$ if char is not 2
+$a * x^2 + y^2 = c^2 * (1 + d * x^2 * y^2)$ if char is not 2
 $c * d * (1 - c^4 * d) \ne 0$
 
 $x_r = \frac{x_p * y_q + x_q * y_p}{1 + d * x_p * x_q * y_p * y_q}$
@@ -30,6 +30,7 @@ $y_r = \frac{y_p * y_q - x_q * x_p}{1 - d * x_p * x_q * y_p * y_q}$
 
 
 # Edwards -> Montgomery
+
 if $a = 1, c^2 = 1$:
 
 $e = 1 - d$

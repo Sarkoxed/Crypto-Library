@@ -3,7 +3,7 @@ from time import sleep
 from factordb import FactorDB
 
 
-def get_ec_type(a, b, p):
+def get_ec_type(a, b, p, e = 1):
     G = GF(p)
     if G(4 * a**3 + 27 * b**2) == G(0):
         x = var("x")
