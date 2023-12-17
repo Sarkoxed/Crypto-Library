@@ -19,18 +19,16 @@
 - coppersmith. Bivariate too you little fuck.
 - why does cpp algo on pkcs works in less oracls calls?
 - test it on general values
+- Gaussian Wiener
+- openssl + asn - cringe now
 
 ### Elliptic Curves
-- Weil Pairing And Miller Algorithm(doesn't work)
 - Smart attack
 - Babai
 - ecdsa attacks
     - LLL higher bits + middle
     - Random things
 - Mongomery ladder
-- MOV doesn't work for some reason
-- Gaussian Wiener
-- openssl + asn - cring now
 
 ### Lattice Cryptography
 - ntru signature complete

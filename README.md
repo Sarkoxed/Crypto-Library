@@ -70,8 +70,6 @@
     - weil_pairing.py - weil pairing python implementation
     - MOV algorithm implementation in python using weil pairing
 
-    - MOV algorithm implementation in pure(lol) sage
-
 ### HASH Functions
 - sha1
     - sha1 implentation in python(stolen)
