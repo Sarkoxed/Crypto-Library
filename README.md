@@ -5,9 +5,7 @@
     - Padding Oracle attack implementation
 - GCM
     - Ghash implementation in python
-    - pycryptodome ghash implementation
-    - gcm_oracle_attack
-        - Attack on gcm cipher using oracle
+    - oracle_access.py - GHASH without knowledge of key
 
 - linear_analysis
     - Example of Linear sbox usage in aes

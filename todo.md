@@ -46,7 +46,7 @@
 - Feistel
 - AES
     - implementation check, maybe c
-    - gcm - mess directory
+    - https://toadstyle.org/cryptopals/63.txt
 
 ### Linear Cryptoanalisys
 - Kek

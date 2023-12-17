@@ -8,22 +8,28 @@ class GHASH:
     x = 0
     adata_len = 0
     ct_len = 0
+    final = None
 
-    def __init__(self, key, iv):
-        cipher = AES.new(key, mode=AES.MODE_ECB)
-        H = cipher.encrypt(b"\x00" * 16)
+    def __init__(self):
+        return
+
+    def get_counter(self, H: bytes, iv: bytes):
         self.H = self.bytes_to_gf(H)
 
         if len(iv) == 96 // 8:
-            iv += b"\x00\x00\x00\x01"
-            self.final = cipher.encrypt(iv)
+            counter = iv + b"\x00\x00\x00\x01"
         else:
             curlen = len(iv) * 8
             padlen = (16 - (len(iv) % 16)) % 16
             iv += b"\x00" * padlen
             iv += b"\x00" * 8
             iv += curlen.to_bytes(8, "big")
-            self.final = cipher.encrypt(self.__hash(iv))
+            counter = self.__hash(iv)
+
+        return counter
+
+    def set_encrypted_counter(self, ectr: bytes):
+        self.final = ectr
 
     @staticmethod
     def reverse(n):
@@ -94,7 +100,7 @@ def test():
     from os import urandom
     from random import randint
 
-    for i in range(10000):
+    for _ in range(100):
         key = urandom(16)
         iv = urandom(randint(1, 16))
         pt = urandom(randint(1, 100))
@@ -104,7 +110,15 @@ def test():
         cipher.update(additional)
         ct, tag = cipher.encrypt_and_digest(pt)
 
-        gh = GHASH(key, iv)
+        gh = GHASH()
+
+        cipher1 = AES.new(key, mode=AES.MODE_ECB)
+        H = cipher1.encrypt(b"\x00" * 16)
+        counter = gh.get_counter(H, iv)
+
+        final = cipher1.encrypt(counter)
+        gh.set_encrypted_counter(final)
+
         gh.update(additional, True)
         gh.update(ct, False)
         tag_own = gh.get_tag()
