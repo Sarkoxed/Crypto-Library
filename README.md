@@ -45,6 +45,7 @@
     - equivalence.py      - translation between curves
     - kind.sage           - script that kinda automates curve analysis
     - kinds.md            - Writeup on Elliptic Curve kinds
+    - get_curves_of_specific_order.py - just elliptic curves order properties
 - order
     - curve_order.py - computation of elliptic curve order over finite field using bsgs
 

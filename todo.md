@@ -26,6 +26,7 @@
     - LLL higher bits + middle
     - Random things
 - Mongomery ladder
+- get_curves_of_specific_order.py - finish this one
 
 ### Lattice Cryptography
 - ntru signature complete
