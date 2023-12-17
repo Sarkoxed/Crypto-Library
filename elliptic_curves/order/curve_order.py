@@ -1,7 +1,7 @@
-from sage.all import EllipticCurve, GF, random_prime, randint, ceil, factor, lcm, sqrt
 from Crypto.Util.number import getPrime
+from sage.all import GF, EllipticCurve, ceil, factor, lcm, randint, random_prime, sqrt
 
-# This works only for E(F_p), however you can find the order of E(F_p^n) later, 
+# This works only for E(F_p), however you can find the order of E(F_p^n) later,
 # using requrcive relation
 
 
@@ -24,12 +24,11 @@ def get_nullifier(P):
 
         start += P
 
-
     Q = (p + 1) * P
     step = 2 * m * P
     start = Q - m * step
     M1, M2 = None, None
-    
+
     for k in range(-m, m + 1):
         if start[0] in ps:
             for x in ps[start[0]]:
@@ -41,8 +40,9 @@ def get_nullifier(P):
                     M = p + 1 + 2 * m * k + x
                     return M
         start += step
-        
+
     raise ValueError("Not enough values in the list, try larger m")
+
 
 def get_point_order(P):
     M = get_nullifier(P)
@@ -56,12 +56,35 @@ def get_point_order(P):
             e -= 1
     return M
 
+
 def get_curve_order(E, k=10):
     p = E.base_ring().order()
     if p <= 229:
         return "Do it by hand, please"
 
-    if p in [3, 4, 5, 7, 9, 11, 13, 17, 19, 23, 25, 27, 29, 31, 37, 43, 61, 73, 181, 331, 547]:
+    if p in [
+        3,
+        4,
+        5,
+        7,
+        9,
+        11,
+        13,
+        17,
+        19,
+        23,
+        25,
+        27,
+        29,
+        31,
+        37,
+        43,
+        61,
+        73,
+        181,
+        331,
+        547,
+    ]:
         return "Do it by hand, please"
 
     E1 = E.quadratic_twist()
@@ -78,7 +101,6 @@ def get_curve_order(E, k=10):
 
     if len(s1_factors) == 1:
         return s1_factors[0]
-
 
     s2 = lcm(get_point_order(E1.random_element()) for _ in range(k))
     s2_factors = []
@@ -97,10 +119,11 @@ def get_curve_order(E, k=10):
 
     return s1_factors, s2_factors
 
-p = getPrime(60)
-g = GF(p)
-a, b = g.random_element(), g.random_element()
-e = EllipticCurve(g, [a, b])
-
-print(get_curve_order(e))
-print(e.order())
+if __name__ == "__main__":
+    p = getPrime(60)
+    g = GF(p)
+    a, b = g.random_element(), g.random_element()
+    e = EllipticCurve(g, [a, b])
+    
+    print(get_curve_order(e))
+    print(e.order())
