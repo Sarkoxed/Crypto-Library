@@ -1,3 +1,6 @@
+### extra
+- todos from README.md
+
 ### Algebra and Number Theory
 - Symmetric group operations in cpp? (why?)
 - factorization as in Number Field
@@ -9,6 +12,8 @@
 - collision algos improve
 - index calculus
 - auxilary inputs
+- prime power mod - two files merge
+- smooth criminal - wtf
 
 ### RSA
 - coppersmith. Bivariate too you little fuck.
@@ -23,10 +28,15 @@
     - LLL higher bits + middle
     - Random things
 - Mongomery ladder
+- MOV doesn't work for some reason
+- Gaussian Wiener
+- openssl + asn - cring now
 
 ### Lattice Cryptography
 - ntru signature complete
 - cpp LLL does not solve large lattices. still don't know why
+- trust games - explore
+- lwe - explore
 
 ### Stream Ciphers
 - RC4
@@ -35,13 +45,17 @@
     - Finish the 2nd round attack
     - chosen IV attack on rc4
 
+    - brix
+
 ### Block Ciphers
 - Feistel
 - AES
     - implementation check, maybe c
+    - gcm - mess directory
 
 ### Linear Cryptoanalisys
 - Kek
+- ces - solve
 
 ### ZKP
 - Imlement py_pairing and all this twisted stuff by myself
@@ -58,9 +72,15 @@
 - polynomial roots modulo prime power debug or test or smth
 - math - implement some algos from my textbook. sum_of_squares doesn't work properl- Cheng's factorization method
 - ROCA
+- x509 - cringe
 
 ### PRNG
 - well...
+- mersenne goes wild
 
 ### polynomials
 - finish grobner basis
+
+### HASH FUNCTIONS 
+- md5 diffrential
+- rainbow

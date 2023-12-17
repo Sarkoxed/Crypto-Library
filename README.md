@@ -1,13 +1,30 @@
-## My own crypto library contents
+## My crypto library contents
 
-### RSA 
-- Full/Partial(brutable) knowledge of d
-    - python + cpp implementation
-- PKCS1 padding oracle attack
-    - python + cpp implementation
-- Notes on RSA key creation using python/openssl
-- Wiener attack on RSA with small private exponent
-- Known bits of p
+### AES
+- CBC Mode
+    - Padding Oracle attack implementation
+- GCM
+    - Ghash implementation in python
+    - pycryptodome ghash implementation
+    - gcm_oracle_attack
+        - Attack on gcm cipher using oracle
+
+- linear_analysis
+    - Example of Linear sbox usage in aes
+    - 
+
+- other_implementations
+    - open source implementations of aes
+
+- Ordinary AES implementation in python
+- Sbox gen implementation in c
+
+### Based
+- Bacon cipher
+
+
+### Block Ciphers
+- 
 
 ### DLP
 - Collision Algos
@@ -19,34 +36,64 @@
     - attack todo
 - prime_power
     - Discrete log in the rings $\frac{ZZ}{p^sZZ}$ up to the power $p^{s-1}, s \ge 2$
+    - dlp_modulo_prime_power.py - todo
 
 ### Elliptic Curve Cryptography
-- ECC implementation in python
-- Edwards Curves implementation in python
-- Montgomery Curves implementation in python
-- equivalence.py - switch between curves
-- Weil Pairing implementation in python
-- ECDH implementation in python
+- curves
+    - elliptic_curves.py  - python implementation of an arbitrary elliptic curve
+        - including constant time multiplication
+    - edwards_curve.py    - python implmentation of Edwards curves
+    - montgomery_curve.py - python implementation of Montgomery curves
+    - equivalence.py      - translation between curves
+    - kind.sage           - script that kinda automates curve analysis
+    - kinds.md            - Writeup on Elliptic Curve kinds
+- order
+    - curve_order.py - computation of elliptic curve order over finite field using bsgs
+
+    - division_polynomial.py - computation of division_polynomials and rational functions for elliptic curves
+        - including computation with unknown y
+    - schoofs_algorithm.py - Schoof's algorithm to compute elliptic curve order over finite field
+
 - ecdsa
-    - Elliptic Curve DSA implementation in python
+    - ecdsa.py  - Elliptic Curve DSA implementation in python
     - attacks.py:
         - Linear Congruece attack
         - Polynomial Congruence attack
         - Repeated Nonce attack
         - Lattice Based attack(lower bits)
+
 - Anomalous Curves
     - Smart attack implementation in python
+    - aug
+
 - MOV
-    - MOV algorithm implementation in python
-    - MOV algorithm(not mine)
+    - weil_pairing.py - weil pairing python implementation
+    - MOV algorithm implementation in python using weil pairing
+
+    - MOV algorithm implementation in pure(lol) sage
+
+### HASH Functions
+- sha1
+    - sha1 implentation in python(stolen)
+    - length_extension.py - le attack on sha1
+
+- murmurhash3
+    - murmurhash3_128.py
+    - murmurhash3_128_x64.cpp
+
+    - reverse_murmurhash.py - zero finder/collision finder
+- md5
+    - md5.py
+    - diff.py - d
 
 ### Lattice Cryptography 
 - LLL
     - LLL algorithm implementation in python
     - Improved spped LLL algorithm
     - LLL sage? why
-- cpp tools to analyze lattices
-    - lattice attacks
+
+- cpp_lattice - tools to analyze lattices
+    - lattice_attacks.cpp
         - LLL
         - HadamardRatio
         - Gram-Schmidt
@@ -71,17 +118,36 @@
     - Coppersmith attacks
     - Finding an Algebraic relation using sage
 
-### AES
-- CBC Mode
-    - Padding Oracle attack implementation
-- GCM
-    - Ghash implementation in python
-    - pycryptodome ghash implementation
-- Ordinary AES implementation in python
-- Sbox gen implementation in c
-- Example of Linear sbox usage in aes
-- other_implementations
-    - open source implementations of aes
+### Linear Cryptoanalisys
+- TODO
+
+### Permutation Ciphers
+- Rail Fence cipher
+- Symmetric_Group
+    - Sqrt in S(n)
+
+### PRNG 
+- xorshift128p - truncated xorshift128p analysis
+    - TODO
+
+### RSA 
+- Full/Partial(brutable) knowledge of d
+    - python + cpp implementation
+
+- PKCS1 padding oracle attack
+    - python + cpp implementation
+
+- Notes on RSA key creation using python/openssl - todo
+- wiener - Wiener attack on RSA with small private exponent
+    - wiener.py
+- Known bits of p
+
+### Simple substitution
+- Shift cipher + analysis
+- Vigenere Cipher + analysis
+- frequencies
+    - bigrams
+    - singles
 
 ### Stream Ciphers
 
@@ -96,41 +162,17 @@
         - 2nd round attack on rc4 IV||main_key
     - FMS attack on RC4
     - Special IV generation
+
 - LFSR
     - lfsr decomposition
 
-
-### Linear Cryptoanalisys
-- TODO
-
-
-### Permutation Ciphers
-- Rail Fence cipher
-- Symmetric Group
-    - Sqrt in S(n)
-
-### Simple substitution
-- Shift cipher + analysis
-- Vigenere Cipher + analysis
-- frequencies
-    - bigrams
-    - singles
-
-### HASH Functions
-- sha1 implementation
-    - length_extension.py - le attack
-
-- murmurhash3 implementations(128) (python, cpp)
-    - collision/zero finder
-
-### Based
-- Bacon cipher
-
 ### ZKP
 - KZG
-    - KSG implementation from RealWorldCTF2023
+    - KZG implementation from RealWorldCTF2023
 - coolstuff
-    - Emulated Field operations
+    - emulated_field.py   - prove a * b = c(mod q)
+    - discrete_log.py     - prove bunch of facts about dl)
+    - range_constraint.py - prove that a is less than 2^n
 - PLONK
     - plonk todo
 - sumcheck
@@ -140,7 +182,8 @@
 ### TOOLS
 
 - Algebraic Things
-    - Ring structure of polynomial quotient ring
+    - polynomials_mod_prime_power.py -  Finding roots of a polynomial modulo prime power
+    - polynomial_ring_analysis.py - Ring structure of polynomial quotient ring
         - Order of a multplicative subgroup
         - All the possible orders in this group
         - Ring factorization
@@ -168,7 +211,7 @@
     - Stackoverflow
 - Inverse modulo
 - Primeness check + gen
-    - is prime
+    - is_prime
     - Atkin
     - Simple Prime in range finder
     - Euler's pattern to find primes
@@ -179,20 +222,20 @@
     - Testing for Charmichaelness
 - Strong PseudoPrimes
     - Generating Strong Pseudoprimes using Arnault algorithm!!!
-- Other - some thoughts, theories and algorithms of my own implementation
-    - Combinatorics
-    - Math
 - cvc5
     - cvc5 ff use case
     - ecc solver(lol)
-- Binary Search
-- Smooth Primes Creation
-- Finding roots of a polynomial modulo prime power
-- Solving DLP modulo prime power
-- Interval Union
-- Legendre symbol
-- Base n function
+- Other - some thoughts, theories and algorithms of my own implementation
+    - Combinatorics
+    - Math
+
+- binary_search.py        - Binary Search
+- create_smooth_prime.py  - Smooth Primes Creation
+- Interval Union          - 
+- Legendre symbol         - 
+- rebase.py               - Base n function
 - use of gmp example
 - use of z3 example
 - use of cado-nfs example
+- use of pari library
 - x509cert_help.py - cert generation in python
