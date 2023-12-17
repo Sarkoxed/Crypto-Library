@@ -8,12 +8,9 @@
 - integer relation algorithms implementation or fu use
 
 ### DLP
-- Pollard dlp improve
-- collision algos improve
 - index calculus
 - auxilary inputs
 - prime power mod - two files merge
-- smooth criminal - wtf
 
 ### RSA
 - coppersmith. Bivariate too you little fuck.

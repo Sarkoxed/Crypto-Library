@@ -1,80 +1,119 @@
-from sage.all import *
-from random import randint
-from math import floor, log, gcd
+from Crypto.Util.number import getPrime
+from sage.all import GF, Zmod, floor, gcd, log, randint, random_prime
 
 
-def getPowers(a, x, g, h, p, k):
-    a, b = a
+def getPowers1(a, x, g, h, p, k=1):
+    ax, bx = a
 
-    if k > 1:
-        N = k * p
-        if x not in GF(p):
-            par = sum(int(x) for x in list(x))
-        else:
-            par = int(x)
+    if x not in GF(p):
+        par = sum(int(x) * p**i for i, x in enumerate(list(x)))
+
+        r = len(list(x))
+        lb = p ** (r - 1)
+        step = (p**r - lb) // 3
     else:
-        N = p
+        lb = 0
+        step = p // 3
         par = int(x)
 
-    if par < N / 3:
-        a += 1
-    elif N / 3 <= par and par < 2 * N / 3:
-        a *= 2
-        b *= 2
+    if par >= lb and par < lb + step:
+        ax += 1
+        x *= g
+    elif par >= lb + step and par < lb + 2 * step:
+        ax *= 2
+        bx *= 2
+        x = x**2
     else:
-        b += 1
+        bx += 1
+        x *= h
 
-    mod = p ** (k - 1) * (p - 1)
-    return a % mod, b % mod, pow(g, a) * pow(h, b)
+    return (ax, bx), x
+
+
+# performs slightly better, according to benchmarks
+def getPowers2(a, x, g, h, p, k=1):
+    ax, bx = a
+
+    N = p**k
+    if x not in GF(p):
+        par = sum(int(x) * p**i for i, x in enumerate(list(x)))
+    else:
+        par = int(x)
+
+    if par < N // 3:
+        ax += 1
+        x *= g
+    elif par >= N // 3 and par < 2 * N // 3:
+        ax *= 2
+        bx *= 2
+        x = x**2
+    else:
+        bx += 1
+        x *= h
+
+    return (ax, bx), x
 
 
 def pollard_rho(g, h, p, k=1):
-    ax, bx, ay, by = 0, 0, 0, 0
+    N = g.multiplicative_order()
+    Pm = Zmod(N)
 
-    mod = p ** (k - 1) * (p - 1)
+    ex = (Pm(0), Pm(0))
+    ey = (Pm(0), Pm(0))
 
-    x, y = 1, 1
+    G = GF(p**k)
+    x, y = G(1), G(1)
     while True:
-        ax, bx, x = getPowers((ax, bx), x, g, h, p, k)
+        ex, x = getPowers(ex, x, g, h, p, k)
 
-        ay, by, y = getPowers((ay, by), y, g, h, p, k)
-        ay, by, y = getPowers((ay, by), y, g, h, p, k)
+        ey, y = getPowers(ey, y, g, h, p, k)
+        ey, y = getPowers(ey, y, g, h, p, k)
 
         if x == y:
             break
 
-    u = (ax - ay) % mod
-    v = -(bx - by) % mod
-#    print(u, v, mod)
-
-    d = gcd(v, mod)
-    print(d)
+    u = int(ex[0] - ey[0])
+    v = int(ey[1] - ex[1])
+    d = gcd(v, N)
+    assert u % d == 0
 
     u //= d
-    w = mod // d
+    N //= d
     v //= d
 
-    ans = (pow(v, -1, w) * u) % w
-    fans = []
-    for k in range(0, d):
-        fans.append(ans + k * w)
+    res = Pm(pow(v, -1, N) * u)
+    dlp = []
+    for k in range(d):
+        dlp.append(res + k * N)
 
-    return fans
+    return dlp
 
 
-#g = int(input("g-> "))
-#h = int(input("h-> "))
-#p = int(input("p-> "))
-#k = int(input("k-> "))
+getPowers = getPowers2
 
-p = random_prime(100000)
-G = GF(p**2)
-g = G.random_element()
-x = randint(1, p-1)
-h = g**x
 
-print(f"p, g, h, x = {p}, {g}, {h}, {x}")
+def test(n=1, nbit=20):
+    from time import time
 
-pos = pollard_rho(g, h, p, 2)
-print(pos)
-assert x in pos
+    k = nbit // n
+    p = getPrime(k)
+    G = GF(p**n)
+
+    g = G.random_element()
+    x = randint(1, p - 1)
+    h = g**x
+
+    start = time()
+    pos = pollard_rho(g, h, p, n)
+    end = time()
+    assert x in pos
+    return end - start
+
+
+if __name__ == "__main__":
+    t = 0.0
+    m = 20
+    for _ in range(m):
+        t += test(n=3, nbit=30)
+        print(f"CurrentAvg: {t / (_ + 1)}")
+    print(f"AvgTime: {t / m}")
