@@ -1,7 +1,7 @@
 import random
 from Crypto.Util.number import isPrime, getPrime
 from sage.all import Zmod, EllipticCurve, hilbert_class_polynomial, PolynomialRing, factor, randint, GF, var, ZZ, gcd
-from division_polynomial import psi_odd_cached, init_cache_odd
+from division_polynomial import psi_cached_noy, init_cache_noy
 import sys
 # TODO hilbert poly impl
 
@@ -72,10 +72,10 @@ def factor4p1(n, D, B=10):
     
     for i in range(1, B + 10):
         xi = Q(randint(0, n))
-        cache = init_cache_odd(a, b, xi)
+        cache = init_cache_noy(a, b, xi)
         y_squared = xi**3 + a * xi + b
 
-        z = P(psi_odd_cached(n, cache, y_squared).lift())
+        z = P(psi_cached_noy(n, cache, y_squared).lift())
         d, flag = gcd_poly_zmod(z, P(H), n)
         if not flag:
             return d

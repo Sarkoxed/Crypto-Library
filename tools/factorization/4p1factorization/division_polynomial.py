@@ -1,5 +1,4 @@
-# TODO: why e.division_polynomial() is not the same in sage
-def psi(a, b, x, n, y): # too slow
+def psi(a, b, x, n, y):  # too slow
     if n == 0:
         return 0
     elif n == 1:
@@ -9,165 +8,193 @@ def psi(a, b, x, n, y): # too slow
     elif n == 3:
         return 3 * x**4 + 6 * a * x**2 + 12 * b * x - a**2
     elif n == 4:
-        return 4 * y * (x**6 + 5 * a * x**4 + 20 * b* x**3 - 5 * a**2 * x**2 - 4 * a * b * x - 8 * b**2 - a**3)
+        return (
+            4
+            * y
+            * (
+                x**6
+                + 5 * a * x**4
+                + 20 * b * x**3
+                - 5 * a**2 * x**2
+                - 4 * a * b * x
+                - 8 * b**2
+                - a**3
+            )
+        )
 
     m = n >> 1
     if n & 1:
-        psim2 =  psi(a, b, x, m + 2, y)
-        psim1 =  psi(a, b, x, m + 1, y)
-        psim =   psi(a, b, x, m, y)
+        psim2 = psi(a, b, x, m + 2, y)
+        psim1 = psi(a, b, x, m + 1, y)
+        psim = psi(a, b, x, m, y)
         psim_1 = psi(a, b, x, m - 1, y)
         return psim2 * psim**3 - psim_1 * psim1**3
     else:
-        psim2 =  psi(a, b, x, m + 2, y)
-        psim1 =  psi(a, b, x, m + 1, y)
-        psim =   psi(a, b, x, m, y)
+        psim2 = psi(a, b, x, m + 2, y)
+        psim1 = psi(a, b, x, m + 1, y)
+        psim = psi(a, b, x, m, y)
         psim_1 = psi(a, b, x, m - 1, y)
         psim_2 = psi(a, b, x, m - 2, y)
 
-        return psim * pow(2 * y, -1) * (psim2 * psim_1**2 - psim_2 *psim1**2)
+        return psim * pow(2 * y, -1) * (psim2 * psim_1**2 - psim_2 * psim1**2)
 
 
-def phi(a, b, x, n, y): # too slow
-    psin1 =  psi(a, b, x, n+1, y)
-    psin =   psi(a, b, x, n, y)
-    psin_1 = psi(a, b, x, n-1, y)
+def phi(a, b, x, n, y):  # too slow
+    psin1 = psi(a, b, x, n + 1, y)
+    psin = psi(a, b, x, n, y)
+    psin_1 = psi(a, b, x, n - 1, y)
     return x * psin**2 - psin1 * psin_1
 
 
-def omega(a, b, x, n, y): # too slow
-    psin2 =  psi(a, b, x, n + 2, y)
-    psin1 =  psi(a, b, x, n + 1, y)
+def omega(a, b, x, n, y):  # too slow
+    if n == 1:
+        return y
+    psin2 = psi(a, b, x, n + 2, y)
+    psin1 = psi(a, b, x, n + 1, y)
     psin_1 = psi(a, b, x, n - 1, y)
     psin_2 = psi(a, b, x, n - 2, y)
     return (psin2 * psin_1**2 - psin_2 * psin1**2) * pow(4 * y, -1)
 
 
-
-
-
-
 # optimized part
 
+
 def init_cache(a, b, x, y):
+    Q = x.parent()
     tmp = dict()
-    tmp[0] = 0
-    tmp[1] = 1
-    tmp[2] = 2 * y
+    tmp[0] = Q(0)
+    tmp[1] = Q(1)
+    tmp[2] = Q(2 * y)
     tmp[3] = 3 * x**4 + 6 * a * x**2 + 12 * b * x - a**2
-    tmp[4] = 4 * y * (x**6 + 5 * a * x**4 + 20 * b* x**3 - 5 * a**2 * x**2 - 4 * a * b * x - 8 * b**2 - a**3)
+    tmp[4] = (
+        4
+        * y
+        * (
+            x**6
+            + 5 * a * x**4
+            + 20 * b * x**3
+            - 5 * a**2 * x**2
+            - 4 * a * b * x
+            - 8 * b**2
+            - a**3
+        )
+    )
     return tmp
- 
-def psi_cached(n, tmp, y):
-    if n in tmp:
-        return tmp[n]
-    
+
+
+# same as e.division_polynomial(m = n, two_torsion_multiplicity=1)
+def psi_cached(n, cache, y):
+    if n in cache:
+        return cache[n]
+
     m = n >> 1
     if n & 1:
-        psim2 =  psi_cached(m + 2, tmp, y)
-        psim1 =  psi_cached(m + 1, tmp, y)
-        psim =   psi_cached(m, tmp, y)
-        psim_1 = psi_cached(m - 1, tmp, y)
-        tmp[n] = psim2 * psim**3 - psim_1 * psim1**3
+        psim2 = psi_cached(m + 2, cache, y)
+        psim1 = psi_cached(m + 1, cache, y)
+        psim = psi_cached(m, cache, y)
+        psim_1 = psi_cached(m - 1, cache, y)
+        cache[n] = psim2 * psim**3 - psim_1 * psim1**3
     else:
-        psim2 =  psi_cached(m + 2, tmp, y)
-        psim1 =  psi_cached(m + 1, tmp, y)
-        psim =   psi_cached(m, tmp, y)
-        psim_1 = psi_cached(m - 1, tmp, y)
-        psim_2 = psi_cached(m - 2, tmp, y)
-    
-        tmp[n] = psim * pow(2 * y, -1) * (psim2 * psim_1**2 - psim_2 *psim1**2)
-        if len(tmp) % 4000 == 0:
-            print(len(tmp))
-    
-    return tmp[n]
+        psim2 = psi_cached(m + 2, cache, y)
+        psim1 = psi_cached(m + 1, cache, y)
+        psim = psi_cached(m, cache, y)
+        psim_1 = psi_cached(m - 1, cache, y)
+        psim_2 = psi_cached(m - 2, cache, y)
 
-def phi_cached(n, tmp, x, y):
-    psin1 =  psi_cached(n+1, tmp, y)
-    psin =   psi_cached(n,   tmp, y)
-    psin_1 = psi_cached(n-1, tmp, y)
+        cache[n] = psim * pow(2 * y, -1) * (psim2 * psim_1**2 - psim_2 * psim1**2)
+        if len(cache) % 4000 == 0:
+            print(len(cache))
+
+    return cache[n]
+
+
+def phi_cached(n, cache, x, y):
+    psin1 = psi_cached(n + 1, cache, y)
+    psin = psi_cached(n, cache, y)
+    psin_1 = psi_cached(n - 1, cache, y)
     return x * psin**2 - psin1 * psin_1
 
-def omega_cached(n, tmp, y):
-    psin2 =  psi_cached(n + 2, tmp,  y)
-    psin1 =  psi_cached(n + 1, tmp, y)
-    psin_1 = psi_cached(n - 1, tmp, y)
-    psin_2 = psi_cached(n - 2, tmp, y)
-    return (psin2 * psin_1**2 - psin_2 * psin1**2) / (4 * y, -1)
 
-
-
+def omega_cached(n, cache, y):
+    if n == 1:
+        return y
+    psin2 = psi_cached(n + 2, cache, y)
+    psin1 = psi_cached(n + 1, cache, y)
+    psin_1 = psi_cached(n - 1, cache, y)
+    psin_2 = psi_cached(n - 2, cache, y)
+    return (psin2 * psin_1**2 - psin_2 * psin1**2) / (4 * y)
 
 
 # When we do not know y; for example in rings of unknown order
 
-def init_cache_odd(a, b, x):
+
+def init_cache_noy(a, b, x):
+    Q = x.parent()
     tmp = dict()
-    tmp[0] = 0
-    tmp[1] = 1
-    tmp[2] = 2
+    tmp[0] = Q(0)
+    tmp[1] = Q(1)
+    tmp[2] = Q(2)
     tmp[3] = 3 * x**4 + 6 * a * x**2 + 12 * b * x - a**2
-    tmp[4] = 4 * (x**6 + 5 * a * x**4 + 20 * b* x**3 - 5 * a**2 * x**2 - 4 * a * b * x - 8 * b**2 - a**3)
+    tmp[4] = 4 * (
+        x**6
+        + 5 * a * x**4
+        + 20 * b * x**3
+        - 5 * a**2 * x**2
+        - 4 * a * b * x
+        - 8 * b**2
+        - a**3
+    )
     return tmp
- 
-def psi_odd_cached(n, tmp, y_squared):
-    if n in tmp:
-        return tmp[n]
+
+
+# same as e.division_polynomial(m = n, two_torsion_multiplicity=0) * 2(n % 2 = 0)
+def psi_cached_noy(n, cache, y_squared):
+    if n in cache:
+        return cache[n]
 
     m = n >> 1
     if n & 1:
-        psim2 =  psi_odd_cached(m + 2, tmp, y_squared)
-        psim1 =  psi_odd_cached(m + 1, tmp, y_squared)
-        psim =   psi_odd_cached(m, tmp, y_squared)
-        psim_1 = psi_odd_cached(m - 1, tmp, y_squared)
+        psim2 = psi_cached_noy(m + 2, cache, y_squared)
+        psim1 = psi_cached_noy(m + 1, cache, y_squared)
+        psim = psi_cached_noy(m, cache, y_squared)
+        psim_1 = psi_cached_noy(m - 1, cache, y_squared)
 
         if m & 1:
-            tmp[n] = psim2 * psim**3 - y_squared**2 * psim_1 * psim1**3
+            cache[n] = psim2 * psim**3 - y_squared**2 * psim_1 * psim1**3
         else:
-            tmp[n] = y_squared**2 * psim2 * psim**3 - psim_1 * psim1**3
+            cache[n] = y_squared**2 * psim2 * psim**3 - psim_1 * psim1**3
 
     else:
-        psim2 =  psi_odd_cached(m + 2, tmp, y_squared)
-        psim1 =  psi_odd_cached(m + 1, tmp, y_squared)
-        psim =   psi_odd_cached(m, tmp, y_squared)
-        psim_1 = psi_odd_cached(m - 1, tmp, y_squared)
-        psim_2 = psi_odd_cached(m - 2, tmp, y_squared)
-        
-        tmp[n] = psim * (psim2 * psim_1**2 - psim_2 *psim1**2) / 2
+        psim2 = psi_cached_noy(m + 2, cache, y_squared)
+        psim1 = psi_cached_noy(m + 1, cache, y_squared)
+        psim = psi_cached_noy(m, cache, y_squared)
+        psim_1 = psi_cached_noy(m - 1, cache, y_squared)
+        psim_2 = psi_cached_noy(m - 2, cache, y_squared)
 
-        if len(tmp) % 4000 == 0:
-            print(len(tmp))
-    
-    return tmp[n]
+        cache[n] = psim * (psim2 * psim_1**2 - psim_2 * psim1**2) / 2
+
+        if len(cache) % 4000 == 0:
+            print(len(cache))
+
+    return cache[n]
 
 
-if __name__ == "__main__":
-    import sys
-    from sage.all import Zmod, EllipticCurve, hilbert_class_polynomial, PolynomialRing, factor, randint, GF, var
+def phi_cached_noy(n, cache, x, y_squared):
+    psin1 = psi_cached_noy(n + 1, cache, y_squared)
+    psin = psi_cached_noy(n, cache, y_squared)
+    psin_1 = psi_cached_noy(n - 1, cache, y_squared)
+    if n % 2 == 0:
+        return x * psin**2 * y_squared - psin1 * psin_1
+    else:
+        return x * psin**2 - y_squared * psin1 * psin_1
 
-    pq = 197668727631091367742709136128743654441348626319358455424154957622593478317702875797870917406306610209227069011213796022474557571287640047964204268741387902475941534937803844919846996186015161924763573215768996282673262142495543130448629321245725943457995962053975028414857378181981975537473075371323721723282414965385616238226022585643318380382933957114887587400756839652113664019595783005052456504610440347441432047203456673005694421287910861345275860815765649362917605245331922139276581167277357976312634342038126651764907621538087036263647496919309373580804508215772586118034558441112844163185472846313177715195751594195571775066984403760113841866370735633457655624717485360029766977196336437396823455200244750841891488272955411414597579962144057306870552032004369483951471135636971343453869638618512745435033408701303835819795793685948902753986314730740309492031746077073705183612946948559222867431310158424608457394564821949379990204762408669175695121310052750265910679635011793211354699875527725108376037596187270394487720065110971052499720150365770394956793303385322892341424053711396155971409795818831405230240418721380063162847261865600098988881018781767963959898973351200803986787895261055474025956077155425028344613510741
-    
-    g = Zmod(pq)
-    
-    a = g(0)
-    b = g(3)
-    
-    x1 = g(1)
-    y1 = g(2)
-    e = EllipticCurve(g, [a, b])
-    
-    n = randint(1, pq-1)
-    sys.setrecursionlimit(2 * n.bit_length()) ###########################
-    
-    cache = init_cache(a, b, x1, y1)
-    
-    tn = phi_cached(n, cache, x1, y1)
-    td = psi_cached(n, cache, y1)**2
-    x2 = tn/td
-    
-    tn = omega_cached(n, cache, y1)
-    td = psi_cached(n, cache, y1)**3
-    y2 = tn / td
-    
-    print(e((x2, y2)))
-    print(n * e((x1, y1)))
+
+def omega_cached_noy(n, cache, y_squared):
+    if n == 1:
+        return cache[1]
+    psin2 = psi_cached_noy(n + 2, cache, y_squared)
+    psin1 = psi_cached_noy(n + 1, cache, y_squared)
+    psin_1 = psi_cached_noy(n - 1, cache, y_squared)
+    psin_2 = psi_cached_noy(n - 2, cache, y_squared)
+
+    return (psin2 * psin_1**2 - psin_2 * psin1**2) / 4
