@@ -114,6 +114,8 @@
     - Algebraic Roots recovery using LLL(square and cubic)
     - Coppersmith attacks
     - Finding an Algebraic relation using sage
+- LWE
+    - not so much yet
 
 ### Linear Cryptoanalisys
 - TODO
