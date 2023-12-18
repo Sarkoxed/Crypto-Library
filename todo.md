@@ -33,6 +33,7 @@
 - cpp LLL does not solve large lattices. still don't know why
 - trust games - explore
 - lwe - explore
+- sparse knapsacks
 
 ### Stream Ciphers
 - RC4
