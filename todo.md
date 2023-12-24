@@ -21,6 +21,7 @@
 - ROCA
 
 ### Elliptic Curves
+- anomalous curves generation
 - Babai
 - ecdsa attacks
     - LLL higher bits + middle
