@@ -54,6 +54,7 @@
     - division_polynomial.py - computation of division_polynomials and rational functions for elliptic curves
         - including computation with unknown y
     - schoofs_algorithm.py - Schoof's algorithm to compute elliptic curve order over finite field
+    - multiplication - implmentations of several techniques to boost multiplication
 
 - ecdsa
     - ecdsa.py  - Elliptic Curve DSA implementation in python
@@ -72,6 +73,11 @@
 - MOV
     - weil_pairing.py - weil pairing python implementation
     - MOV algorithm implementation in python using weil pairing
+- Supersingular Curves
+    - Supersingularity tests
+    - Fast multiplication using supersingular curves
+- Singular Curves
+    - DLP on singular curves
 
 ### HASH Functions
 - sha1

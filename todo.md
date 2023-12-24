@@ -21,6 +21,7 @@
 - ROCA
 
 ### Elliptic Curves
+- elliptic curves over the rings
 - anomalous curves generation
 - Babai
 - ecdsa attacks
@@ -28,6 +29,11 @@
     - Random things
 - Mongomery ladder
 - get_curves_of_specific_order.py - finish this one
+- multiplication
+    - endomorphism
+    - tau expansion
+    - windowed
+    - check the book
 
 ### Lattice Cryptography
 - ntru signature complete
