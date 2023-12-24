@@ -35,6 +35,8 @@
 - prime_power
     - Discrete log in the rings $\frac{ZZ}{p^sZZ}$ up to the power $p^{s-1}, s \ge 2$
     - dlp_modulo_prime_power.py - todo
+- Pohlig-Hellman
+    - based
 
 ### Elliptic Curve Cryptography
 - curves
