@@ -9,6 +9,7 @@ from sage.all import (
     gcd,
 )
 
+# if a = 0, N > 0, there exists P \in E(F_q): ord(P) = N => E[N] \in E(F_q^2)
 
 def rebase(n, b):
     if n < b:
