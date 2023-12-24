@@ -57,4 +57,15 @@ def get_square_order(nbit):
                 e = EllipticCurve(g, [a, b])
                 if e.order().is_square():
                     return a, b, q
+# y^2 = x^3 - k * x
+# N = p + 1, p % 4 = 3
+# p % 4 = 1:
+# p = a**2 + b**2, b % 2 = 0, a + b = 1 (mod 4)
+# p + 1 - 2 * a, k - fourth power mod p
+# p + 1 + 2 * a, k - second power
+# p + 1 +- 2 * b - not a square
+def gaussian(p):
+    pass
+
+
 print(get_square_order(10))
