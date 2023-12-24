@@ -62,8 +62,10 @@
         - Lattice Based attack(lower bits)
 
 - Anomalous Curves
-    - Smart attack implementation in python
-    - aug
+    - Smart attack
+    - Smart attack but mod p^2
+    - Augmented addition attack
+    - Fast multiplication using anomalous curves
 
 - MOV
     - weil_pairing.py - weil pairing python implementation

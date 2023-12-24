@@ -18,9 +18,9 @@
 - test it on general values
 - Gaussian Wiener
 - openssl + asn - cringe now
+- ROCA
 
 ### Elliptic Curves
-- Smart attack
 - Babai
 - ecdsa attacks
     - LLL higher bits + middle
