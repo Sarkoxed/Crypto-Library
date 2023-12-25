@@ -78,6 +78,10 @@
     - Fast multiplication using supersingular curves
 - Singular Curves
     - DLP on singular curves
+- encryption schemes
+    - Massey-Omura cs
+    - Elgamal cs
+    - ECIES
 
 ### HASH Functions
 - sha1

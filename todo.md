@@ -1,5 +1,6 @@
 ### extra
 - todos from README.md
+- chacha?
 
 ### Algebra and Number Theory
 - Symmetric group operations in cpp? (why?)
@@ -86,5 +87,6 @@
 - finish grobner basis
 
 ### HASH FUNCTIONS 
+- blake family
 - md5 diffrential
 - rainbow
