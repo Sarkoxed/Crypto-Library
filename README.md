@@ -48,14 +48,27 @@
     - kind.sage           - script that kinda automates curve analysis
     - kinds.md            - Writeup on Elliptic Curve kinds
     - get_curves_of_specific_order.py - just elliptic curves order properties
+    - multiplication - implmentations of several techniques to boost multiplication
 - order
     - curve_order.py - computation of elliptic curve order over finite field using bsgs
 
     - division_polynomial.py - computation of division_polynomials and rational functions for elliptic curves
         - including computation with unknown y
     - schoofs_algorithm.py - Schoof's algorithm to compute elliptic curve order over finite field
-    - multiplication - implmentations of several techniques to boost multiplication
 
+- Supersingular Curves
+    - Supersingularity tests
+    - Fast multiplication using supersingular curves
+- Singular Curves
+    - DLP on singular curves
+- Anomalous Curves
+    - Smart attack
+    - Smart attack but mod p^2
+    - Augmented addition attack
+    - Fast multiplication using anomalous curves
+- MOV
+    - weil_pairing.py - weil pairing python implementation
+    - MOV algorithm implementation in python using weil pairing
 - ecdsa
     - ecdsa.py  - Elliptic Curve DSA implementation in python
     - attacks.py:
@@ -63,21 +76,9 @@
         - Polynomial Congruence attack
         - Repeated Nonce attack
         - Lattice Based attack(lower bits)
+ecdh:
+    - tripartite Diffie-Hellman
 
-- Anomalous Curves
-    - Smart attack
-    - Smart attack but mod p^2
-    - Augmented addition attack
-    - Fast multiplication using anomalous curves
-
-- MOV
-    - weil_pairing.py - weil pairing python implementation
-    - MOV algorithm implementation in python using weil pairing
-- Supersingular Curves
-    - Supersingularity tests
-    - Fast multiplication using supersingular curves
-- Singular Curves
-    - DLP on singular curves
 - encryption schemes
     - Massey-Omura cs
     - Elgamal cs
