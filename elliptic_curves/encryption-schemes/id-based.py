@@ -18,15 +18,15 @@ def setup(nbit, mbit=128):
 
 
 def H1(E, m, nbit=128, padbit=7):
-    H = BLAKE2b.new(data=m, digest_bits=nbit - padbit - 1)
-    x_m = int.from_bytes(H.digest(), "big") << padbit
-
+    H = BLAKE2b.new(data=m, digest_bits=nbit)
+    y_m = int.from_bytes(H.digest(), "big")
+    
     q = E.base_ring().order()
     G = GF(q)
-
-    while not G(x_m**3 + 1).is_square():
-        x_m += 1
-    return E.lift_x(ZZ(x_m)) * 6
+    
+    d1 = pow(3, -1, q - 1)
+    x_m = (G(y_m)**2 - 1)**d1
+    return E((x_m, ZZ(y_m))) * 6
 
 
 def H2(t, n):
