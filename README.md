@@ -83,6 +83,8 @@ ecdh:
     - Massey-Omura cs
     - Elgamal cs
     - ECIES
+    - KMOV - RSA like encryption
+    - ID based encryption
 
 ### HASH Functions
 - sha1
