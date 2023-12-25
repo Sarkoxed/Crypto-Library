@@ -10,6 +10,7 @@ from sage.all import (
 )
 
 # if a = 0, N > 0, there exists P \in E(F_q): ord(P) = N => E[N] \in E(F_q^2)
+# if p = 2(mod 3) => cyclic
 
 def rebase(n, b):
     if n < b:
