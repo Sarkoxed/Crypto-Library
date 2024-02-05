@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "cryptolib"
+version = "0.1.0"
+description = ""
+authors = ["Sarkoxed <sarkoxed2013@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pycryptodome = "^3.20.0"
+z3-solver = "^4.12.4.0"
+cvc5 = "^1.1.0"
+fastecdsa = "^2.3.0"
+py-ecc = "^7.0.0"
+factordb-pycli = "^1.3.0"
+gmpy2 = "^2.1.5"
+pwntools = "^4.11.1"
+sympy = "^1.12"
+matplotlib = "^3.8.2"
+z3 = "^0.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
