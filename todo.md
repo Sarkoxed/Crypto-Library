@@ -1,6 +1,8 @@
 ### extra
 - todos from README.md
 - chacha?
+- sage compilation 
+- cvc5 compilation
 
 ### Algebra and Number Theory
 - Symmetric group operations in cpp? (why?)
@@ -66,6 +68,7 @@
 - Imlement py_pairing and all this twisted stuff by myself
 - bulletproofs?
 - protostar
+- finish zcash
 
 ### Algebraic Things
 - number of els to the corresponding order

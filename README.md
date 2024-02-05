@@ -194,6 +194,9 @@ ecdh:
 - sumcheck
     - sumcheck protocol implementation TODO improve....
 - protostar/
+- zcash_bug
+    - zcash_protocol implementation
+    - bug implmentation
 
 ### TOOLS
 
