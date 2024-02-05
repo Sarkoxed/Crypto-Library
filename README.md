@@ -247,6 +247,11 @@ ecdh:
 - Other - some thoughts, theories and algorithms of my own implementation
     - Combinatorics
     - Math
+- encoders
+    - base64
+    - circom witness
+    - circom r1cs
+    - openssh private key
 
 - binary_search.py        - Binary Search
 - create_smooth_prime.py  - Smooth Primes Creation
