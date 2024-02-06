@@ -215,6 +215,7 @@ ecdh:
         - Groebner basis implentation
         - symmetric_polynomials
             - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
+    - annihilators.py - Finding annihilators of boolean function
 
 
 - Factorization methods

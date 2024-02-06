@@ -73,6 +73,7 @@
 ### Algebraic Things
 - number of els to the corresponding order
 - jordan general form + analyzing lfsr
+- annihilators - more efficient one?
 
 ### TOOLS
 - check the pseudoprime gen file
