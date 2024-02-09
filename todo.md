@@ -13,7 +13,6 @@
 ### DLP
 - index calculus
 - auxilary inputs
-- prime power mod - two files merge
 
 ### RSA
 - coppersmith. Bivariate too you little fuck.
