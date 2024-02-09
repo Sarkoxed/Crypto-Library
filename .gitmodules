@@ -1,6 +1,6 @@
 [submodule "site/eigen"]
 	path = site/eigen
-	url = git@gitlab.com:libeigen/eigen.git
+	url = https://gitlab.com/libeigen/eigen.git
 [submodule "site/sage"]
 	path = site/sage
 	url = https://github.com/sagemath/sage.git
