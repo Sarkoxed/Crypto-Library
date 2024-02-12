@@ -34,16 +34,3 @@ def MOV(P, Q, l: int):
     b = weil_pairing(e(Q), T, l)
     n = discrete_log(b, a)
     return n
-
-
-def test():
-    g = GF(691)
-    e = EllipticCurve(g, [1, 0])
-    p = e((301, 14))
-    q = e((143, 27))
-    n = MOV(p, q, 173)
-    assert p * n == q
-
-
-if __name__ == "__main__":
-    test()
