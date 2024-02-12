@@ -76,6 +76,17 @@ def test_chacha20_arb_encrypt(key, nonce, pt_len):
     r = b"\x00" * pt_len
     assert chacha_own.encrypt(r) == chacha_for.encrypt(r)
 
-@pytest.mark.parametrize("a, b, c, d", [(randrange(0, 2**32), randrange(0, 2**32), randrange(0, 2**32), randrange(0, 2**32))])
+
+@pytest.mark.parametrize(
+    "a, b, c, d",
+    [
+        (
+            randrange(0, 2**32),
+            randrange(0, 2**32),
+            randrange(0, 2**32),
+            randrange(0, 2**32),
+        )
+    ],
+)
 def test_reverse(a, b, c, d):
     assert (a, b, c, d) == reverse_quarter_round(*quarter_round(a, b, c, d))

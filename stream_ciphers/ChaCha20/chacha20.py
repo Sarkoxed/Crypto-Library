@@ -97,70 +97,8 @@ class ChaCha20:
         return struct.pack("<16I", *state)
 
     def encrypt(self, message: bytes):
-        keystream = b''
+        keystream = b""
         blocknum = (len(message) + 63) // 64
         for _ in range(blocknum):
             keystream += ChaCha20.serialize(self.block())
         return bytes(x ^ y for x, y in zip(message, keystream))
-
-
-def test_vectors_qr():
-    a = 0x11111111
-    b = 0x01020304
-    c = 0x9B8D6F43
-    d = 0x01234567
-
-    a, b, c, d = ChaCha20.quarter_round(a, b, c, d)
-    assert a == 0xEA2A92F4
-    assert b == 0xCB1CF8CE
-    assert c == 0x4581472E
-    assert d == 0x5881C4BB
-
-
-def test_vectors_init():
-    key = bytes(range(32))
-    nonce = b"\x00\x00\x00\x09\x00\x00\x00\x4a\x00\x00\x00\x00"
-
-    cipher = ChaCha20(key, nonce, counter=1)
-
-    test_state = [
-        0xE4E7F110,
-        0x15593BD1,
-        0x1FDD0F50,
-        0xC47120A3,
-        0xC7F4D1C7,
-        0x368C033,
-        0x9AAA2204,
-        0x4E6CD4C3,
-        0x466482D2,
-        0x9AA9F07,
-        0x5D7C214,
-        0xA2028BD9,
-        0xD19C12B5,
-        0xB94E16DE,
-        0xE883D0CB,
-        0x4E3C50A2,
-    ]
-    
-    assert cipher.block() == test_state
-
-def test(n=1000):
-    from random import randint
-    from Crypto.Cipher import ChaCha20 as chch20
-
-    for i in range(n):
-        key = urandom(32)
-        nonce = urandom(12)
-        c1 = ChaCha20(key, nonce)
-        c2 = chch20.new(key=key, nonce=nonce)
-        r = b'\x00' * i
-
-        r1 = c1.encrypt(r)
-        r2 = c2.encrypt(r)
-        assert r1 == r2
-
-if __name__ == "__main__":
-    test_vectors_qr()
-    test_vectors_init()
-    test_vectors_encrypt()
-    test()
