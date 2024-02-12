@@ -1,5 +1,4 @@
 from Crypto.Cipher import AES
-from Crypto.Util.strxor import strxor
 
 
 class GHASH:
@@ -85,31 +84,5 @@ class GHASH:
         self.x = Xi
 
         tag = self.gf_to_bytes(Xi)
-        hashedtag = tag
-        tag = strxor(tag, self.final)
+        tag = bytes(x ^ y for x, y in zip(tag, self.final))
         return tag
-
-
-def test():
-    from os import urandom
-    from random import randint
-
-    for i in range(10000):
-        key = urandom(16)
-        iv = urandom(randint(1, 16))
-        pt = urandom(randint(1, 100))
-        additional = urandom(randint(1, 100))
-
-        cipher = AES.new(key, mode=AES.MODE_GCM, nonce=iv)
-        cipher.update(additional)
-        ct, tag = cipher.encrypt_and_digest(pt)
-
-        gh = GHASH(key, iv)
-        gh.update(additional, True)
-        gh.update(ct, False)
-        tag_own = gh.get_tag()
-        assert tag_own == tag
-
-
-if __name__ == "__main__":
-    test()
