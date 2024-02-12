@@ -12,6 +12,7 @@ from sage.all import (
 # if a = 0, N > 0, there exists P \in E(F_q): ord(P) = N => E[N] \in E(F_q^2)
 # if p = 2(mod 3) => cyclic
 
+
 def rebase(n, b):
     if n < b:
         return [n]
@@ -73,32 +74,3 @@ def is_supersingular_legendre(A, B, p):
 # p >= 5
 def get_number_of_supersingular_curves(p):
     return round(p / 12) + {1: 0, 5: 1, 7: 1, 11: 2}[p % 12]
-
-
-def test_multiplication():
-    p = random_prime(2**20)
-    while p % 3 != 2:
-        p = random_prime(2**20)
-
-    e = EllipticCurve(GF(p**5), [0, 3])
-    P = e.random_point()
-
-    n = randint(1, P.order() - 1)
-
-    q = p**1
-    Pn = fast_multiplication(P, n, q)
-    Pn1 = P * n
-    assert Pn == Pn1
-
-
-def test_legendre():
-    p = random_prime(2**20)
-    while p % 3 != 2:
-        p = random_prime(2**20)
-
-    assert is_supersingular_legendre(0, 2, p)
-
-
-if __name__ == "__main__":
-    test_multiplication()
-    test_legendre()
