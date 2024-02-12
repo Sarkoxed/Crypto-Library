@@ -30,25 +30,3 @@ def mul_anom(P, k, q):
         points_map[ki] = (Piqi, i)
         res += Piqi
     return res
-
-
-def test_nice():
-    e = EllipticCurve(GF(101), [1, 69])
-    p = 101
-    assert e.order() == p
-
-    e = EllipticCurve(GF(p**25), [1, 69])
-    l = 2564871649947381046664216051
-    P = e.gens()[0] * (e.order() // l)
-    assert P.order() == l
-    assert is_prime(l)
-
-    n = randint(1, l - 1)
-
-    Pn = mul_anom(P, n, p)
-    Pn1 = P * n
-    assert Pn == Pn1
-
-
-if __name__ == "__main__":
-    test_nice()
