@@ -181,6 +181,9 @@ ecdh:
 - LFSR
     - lfsr decomposition
 
+- ChaCha20
+    - ChaCha20 implementation in python
+
 ### ZKP
 - KZG
     - KZG implementation from RealWorldCTF2023
