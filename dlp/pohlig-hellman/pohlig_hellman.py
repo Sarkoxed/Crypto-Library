@@ -1,6 +1,3 @@
-from sage.all import GF, factor, gcd, randint
-
-
 def easy_dlp(g, h, n):
     g0 = 1
     for i in range(n):
@@ -28,22 +25,3 @@ def prime_power(g, h, p, n, k1):
         mult *= p
         assert g ** ((k1 - k) // mult) == h
     return k
-
-
-def test():
-    p = 30877763578292445098700440347759436975049052128915248493103
-    print(factor(p - 1))
-
-    G = GF(p)
-    g = G.multiplicative_generator() ** ((p - 1) // 101**10)
-    assert g ** (101**10) == 1
-    k = randint(1, 101**10 - 1)
-    k //= gcd(k, 101**10)
-    h = g**k
-
-    m = prime_power(g, h, 101, 10, k)
-    assert g**m == h
-
-
-if __name__ == "__main__":
-    test()
