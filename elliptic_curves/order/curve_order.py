@@ -119,11 +119,12 @@ def get_curve_order(E, k=10):
 
     return s1_factors, s2_factors
 
+
 if __name__ == "__main__":
     p = getPrime(60)
     g = GF(p)
     a, b = g.random_element(), g.random_element()
     e = EllipticCurve(g, [a, b])
-    
+
     print(get_curve_order(e))
     print(e.order())
