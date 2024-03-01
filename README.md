@@ -98,6 +98,7 @@ ecdh:
 - md5
     - md5.py
     - diff.py - d
+    - length_extension.py
 
 ### Lattice Cryptography 
 - LLL
