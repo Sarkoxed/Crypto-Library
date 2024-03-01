@@ -3,7 +3,6 @@ from sage.all import GF, ceil, floor, gcd, randint, sqrt
 
 
 def babystep_giantstep(g, h):
-    gf = g.base_ring()
     n = g.multiplicative_order()
     m = 1 + ceil(sqrt(n))
 
@@ -14,7 +13,6 @@ def babystep_giantstep(g, h):
         gi *= g
 
     invg = g ** (-m)
-    lh = [h]
     hi = h
     for j in range(m + 1):
         if hi in lg:
@@ -29,7 +27,6 @@ def birthday_algo(g, h):
 
     gs = {}
     hs = {}
-    flag = True
 
     for i in range(m):
         a = randint(0, n)
