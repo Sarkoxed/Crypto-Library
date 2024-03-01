@@ -12,7 +12,7 @@ def pad(m):
     return m
 
 
-def length_extension_attack(previous_hash, known_length):
+def length_extension_attack(previous_hash: str, known_length: int):
     s = Sha1Hash()
     h = [int(previous_hash[i : i + 8], 16) for i in range(0, len(previous_hash), 8)]
     s._h = h
@@ -26,5 +26,8 @@ h1 = Sha1Hash().update(m).hexdigest()
 
 res1 = length_extension_attack(h1, len(pad(m)))
 res2 = Sha1Hash().update(pad(m) + b"aboba").hexdigest()
+
+print(pad(m) + b'aboba')
+print(res2)
 
 print(res1 == res2)
