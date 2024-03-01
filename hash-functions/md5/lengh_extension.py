@@ -13,7 +13,7 @@ def pad(m):
     return m
 
 
-def length_extension_attack(prev_hash: bytes, known_length: int):
+def length_extension_attack(prev_hash: bytes, known_length: int, tail: bytes):
     s = MD5()
     h = struct.unpack("<4I", prev_hash)
     init = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476]
@@ -25,19 +25,25 @@ def length_extension_attack(prev_hash: bytes, known_length: int):
     s.h[-3] = D
 
     s.length = known_length
-    s.update(b"aboba")
+    s.update(tail)
     return s.digest()
 
 
-message = b"kek"
-h1 = MD5()
-h1.update(message)
-h1 = h1.digest()
+if __name__ == "__main__":
+    secret = b"random"
+    message = b"kek"
+    tail = b"aboba"
 
-res1 = length_extension_attack(h1, len(pad(message) * 8))
+    h1 = MD5()
+    h1.update(secret + message)
+    h1 = h1.digest()
 
-res2 = MD5()
-res2.update(pad(message) + b"aboba")
-res2 = res2.digest()
+    tmp = b"\x00" * len(secret) + message
+    res1 = length_extension_attack(h1, len(pad(tmp)) * 8, tail)
 
-print(res1 == res2)
+    padded = pad(secret + message)
+    res2 = MD5()
+    res2.update(padded + tail)
+    res2 = res2.digest()
+
+    print(res1 == res2)
