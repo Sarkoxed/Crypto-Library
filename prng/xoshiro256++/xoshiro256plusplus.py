@@ -4,7 +4,7 @@ rotr = lambda x, k: rotl(x, 64 - k)
 state = [0, 0, 0, 0]
 
 
-def next():
+def next(state):
     res = rotl((state[0] + state[3]) % 2**64, 23) + state[0]
     res %= 2**64
 
@@ -23,7 +23,6 @@ def next():
 
 
 def test():
-    global state
     state = [1, 2, 3, 4]
     exp = [
         41943041,
@@ -37,7 +36,7 @@ def test():
         15849039046786891736,
         10450023813501588000,
     ]
-    res = [next() for _ in range(10)]
+    res = [next(state) for _ in range(10)]
     assert res == exp
 
 
