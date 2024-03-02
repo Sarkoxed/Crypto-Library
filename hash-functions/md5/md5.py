@@ -28,11 +28,6 @@ class MD5:
         self.w.append(lambda state, i: state[(3 * i + 5) % 16])
         self.w.append(lambda state, i: state[7 * i % 16])
 
-        # print([i for i in range(16)])
-        # print([(5 * i + 1) % 16 for i in range(16, 32)])
-        # print([(3 * i + 5) % 16 for i in range(32, 48)])
-        # print([7 * i % 16 for i in range(48, 64)])
-
         self.t = [floor(2**32 * abs(sin(i))) for i in range(1, 65)]
 
         self.tail = b""
@@ -49,26 +44,23 @@ class MD5:
         self.tail = curtail
 
     def compress(self, block: bytes):
-        state = struct.unpack("<" + "I" * 16, block)
+        state = struct.unpack("<16I", block)
 
         a, b, c, d = self.h
-        qstate = [a, d, c, b]
 
-        # r1
         for i in range(64):
-            B, C, D = qstate[-1], qstate[-2], qstate[-3]
-            fi = self.f[i // 16](B, C, D)
+            fi = self.f[i // 16](b, c, d)
             wi = self.w[i // 16](state, i)
             ti = self.t[i]
             si = self.s[i]
-            q = B + rotl((qstate[-4] + fi + wi + ti) % 2**32, si)
-            qstate.append(q % 2**32)
-            qstate = qstate[1:]
 
-        self.h = qstate
+            q = b + rotl((a + fi + wi + ti) % 2**32, si)
+
+            a, b, c, d = d, q % 2**32, b, c
+
+        self.h = [(x + y) % 2**32 for x, y in zip([a, b, c, d], self.h)]
 
     def digest(self):
-        print(self.h)
         block = self.tail
         self.length += len(block) * 8
         block += b"\x80"
@@ -76,13 +68,16 @@ class MD5:
             block += b"\x00"
 
         block += struct.pack(b"<Q", self.length)
-        print(block)
-        self.compress(block)
+        if len(block) == 64:
+            self.compress(block)
+        else:
+            self.compress(block[:64])
+            self.compress(block[64:])
 
-        A, B, C, D = self.h[0], self.h[-1], self.h[-2], self.h[-3]
-        res = [(x + y) % 2**32 for x, y in zip(self.init, [A, B, C, D])]
+        #        A, B, C, D = self.h[0], self.h[-1], self.h[-2], self.h[-3]
+        #        res = [(x + y) % 2**32 for x, y in zip(self.init, [A, B, C, D])]
 
-        return struct.pack("<IIII", *res)
+        return struct.pack("<IIII", *self.h)
 
     def hexdigest(self):
         return self.digest().hex()
