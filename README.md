@@ -146,6 +146,8 @@ ecdh:
 - xorshift128p - truncated xorshift128p analysis
     - TODO
 
+- xoshiro128++, 256++
+
 ### RSA 
 - Full/Partial(brutable) knowledge of d
     - python + cpp implementation
