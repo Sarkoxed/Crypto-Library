@@ -9,20 +9,13 @@ def pad(m):
 
     message_bit_length = mes_lengh * 8
     m += struct.pack(b"<Q", message_bit_length)
-    print(m)
     return m
 
 
 def length_extension_attack(prev_hash: bytes, known_length: int, tail: bytes):
     s = MD5()
     h = struct.unpack("<4I", prev_hash)
-    init = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476]
-    A, B, C, D = [(x - y) % 2**32 for x, y in zip(h, init)]
-
-    s.h[0] = A
-    s.h[-1] = B
-    s.h[-2] = C
-    s.h[-3] = D
+    s.h = h
 
     s.length = known_length
     s.update(tail)
