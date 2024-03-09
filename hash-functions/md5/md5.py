@@ -68,14 +68,7 @@ class MD5:
             block += b"\x00"
 
         block += struct.pack(b"<Q", self.length)
-        if len(block) == 64:
-            self.compress(block)
-        else:
-            self.compress(block[:64])
-            self.compress(block[64:])
-
-        #        A, B, C, D = self.h[0], self.h[-1], self.h[-2], self.h[-3]
-        #        res = [(x + y) % 2**32 for x, y in zip(self.init, [A, B, C, D])]
+        self.update(block[len(self.tail):])
 
         return struct.pack("<IIII", *self.h)
 
