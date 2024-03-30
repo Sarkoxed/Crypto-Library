@@ -96,9 +96,15 @@ ecdh:
 
     - reverse_murmurhash.py - zero finder/collision finder
 - md5
-    - md5.py
-    - diff.py - d
-    - length_extension.py
+    - md5.py + tests
+    - length_extension attack
+    - collision - fast collision for md5(single block + two blocks)
+        - diff.py + tests - diffrential analysis
+        - verify_paper - tried to verify not very trustworthy facts from paper
+        - fastcoll.py - attack implementation
+
+- blake
+
 
 ### Lattice Cryptography 
 - LLL
