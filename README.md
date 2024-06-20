@@ -149,6 +149,9 @@ ecdh:
 - Symmetric_Group
     - Sqrt in S(n)
 
+### Post Quantum
+- UoV - signature scheme
+
 ### PRNG 
 - xorshift128p - truncated xorshift128p analysis
     - TODO
