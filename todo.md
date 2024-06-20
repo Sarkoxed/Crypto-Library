@@ -91,5 +91,5 @@
 
 ### HASH FUNCTIONS 
 - blake family
-- md5 diffrential
+- md5 fastcoll
 - rainbow

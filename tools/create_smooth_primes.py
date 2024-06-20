@@ -51,8 +51,4 @@ if __name__ == "__main__":
     n = int(input("n: "))
     while True:
         p, p_factors = get_smooth_prime(n, 18)
-        q, q_factors = get_smooth_prime(n, 18)
-        if len(set(p_factors)) == len(p_factors):
-            break
     print(f"{p = }")
-    print(f"{q = }")

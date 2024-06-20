@@ -1,8 +1,13 @@
 import struct
 from math import sin, floor
 
-rotl = lambda x, k: ((x << k) | (x >> (32 - k))) & (2**32 - 1)
-rotr = lambda x, k: rotl(x, 32 - k)
+
+def rotl(x, k):
+    return ((x << k) | (x >> (32 - k))) & (2**32 - 1)
+
+
+def rotr(x, k):
+    return rotl(x, 32 - k)
 
 
 class MD5:
@@ -54,9 +59,8 @@ class MD5:
             ti = self.t[i]
             si = self.s[i]
 
-            q = b + rotl((a + fi + wi + ti) % 2**32, si)
-
-            a, b, c, d = d, q % 2**32, b, c
+            q = (b + rotl((a + fi + wi + ti) % 2**32, si)) % 2**32
+            a, b, c, d = d, q, b, c
 
         self.h = [(x + y) % 2**32 for x, y in zip([a, b, c, d], self.h)]
 
@@ -68,14 +72,7 @@ class MD5:
             block += b"\x00"
 
         block += struct.pack(b"<Q", self.length)
-        if len(block) == 64:
-            self.compress(block)
-        else:
-            self.compress(block[:64])
-            self.compress(block[64:])
-
-        #        A, B, C, D = self.h[0], self.h[-1], self.h[-2], self.h[-3]
-        #        res = [(x + y) % 2**32 for x, y in zip(self.init, [A, B, C, D])]
+        self.update(block[len(self.tail) :])
 
         return struct.pack("<IIII", *self.h)
 

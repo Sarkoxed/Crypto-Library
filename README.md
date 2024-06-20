@@ -96,36 +96,43 @@ ecdh:
 
     - reverse_murmurhash.py - zero finder/collision finder
 - md5
-    - md5.py
-    - diff.py - d
-    - length_extension.py
+    - md5.py + tests
+    - length_extension attack
+    - collision - fast collision for md5(single block + two blocks)
+        - diff.py + tests - diffrential analysis
+        - verify_paper - tried to verify not very trustworthy facts from paper
+        - fastcoll.py - attack implementation
+
+- blake
+
 
 ### Lattice Cryptography 
 - LLL
-    - LLL algorithm implementation in python
-    - Improved spped LLL algorithm
-    - LLL sage? why
+    - python
+        - LLL algorithm implementation in python
+        - Improved spped LLL algorithm
+        - LLL sage? why
+    - cpp
+        - lattice_attacks.cpp
+            - LLL
+            - HadamardRatio
+            - Gram-Schmidt
+            - LLL_check reduced basis
+            - Babai Closest Plain
+            - Babai Closest Vertex
+            - Gaussian Expected Length
 
-- cpp_lattice - tools to analyze lattices
-    - lattice_attacks.cpp
-        - LLL
-        - HadamardRatio
-        - Gram-Schmidt
-        - LLL_check reduced basis
-        - Babai Closest Plain
-        - Babai Closest Vertex
-        - Gaussian Expected Length
-            
-- Congruential Public Key CS
-- GGH Public Key CS
-    - ggh implementation in python
-    - gghdsa implementation in python
-- KnapSack like CS
-    - subset sum 
-    - superincreasing knapsack
-- NTRU Public Key CS
-    - NTRU implemntation in python
-    - NTRUMLS implementation in python
+- cryptosystems
+    - Congruential Public Key CS
+    - GGH Public Key CS
+        - ggh implementation in python
+        - gghdsa implementation in python
+    - KnapSack like CS
+        - subset sum 
+        - superincreasing knapsack
+    - NTRU Public Key CS
+        - NTRU implemntation in python
+        - NTRUMLS implementation in python
 
 - Integer Relation
     - Algebraic Roots recovery using LLL(square and cubic)

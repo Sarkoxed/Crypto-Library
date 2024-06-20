@@ -17,6 +17,7 @@ def dlog(alpha, beta, p, s):
     return (b * pow(a, -1, p ** (s - 1))) % p ** (s - 1)
 
 
+# 3 - always gen : {-1, 1} union {3^i}
 def teta_base2(k, s):
     if k % 4 == 3:
         k = -k
