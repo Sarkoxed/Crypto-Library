@@ -84,7 +84,7 @@
 
 ### PRNG
 - well...
-- mersenne goes wild
+- mersenne goes wild - PYTHON INCLUDING
 
 ### polynomials
 - finish grobner basis
