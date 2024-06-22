@@ -1,28 +1,27 @@
 ## My crypto library contents
 
-### AES
-- CBC Mode
-    - Padding Oracle attack implementation
-- GCM
-    - Ghash implementation in python
-    - oracle_access.py - GHASH without knowledge of key
-
-- linear_analysis
-    - Example of Linear sbox usage in aes
-    - 
-
-- other_implementations
-    - open source implementations of aes
-
-- Ordinary AES implementation in python
-- Sbox gen implementation in c
-
 ### Based
 - Bacon cipher
 
-
 ### Block Ciphers
-- 
+- AES
+    - CBC Mode
+        - Padding Oracle attack implementation
+    - GCM
+        - Ghash implementation in python
+        - oracle_access.py - GHASH without knowledge of key
+    
+    - linear_analysis
+        - Example of Linear sbox usage in aes
+        - 
+    
+    - other_implementations
+        - open source implementations of aes
+    
+    - Ordinary AES implementation in python
+    - Sbox gen implementation in c
+- DES
+    - des.py python implementation. 
 
 ### DLP
 - Collision Algos
