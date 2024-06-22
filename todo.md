@@ -84,7 +84,11 @@
 
 ### PRNG
 - well...
-- mersenne goes wild
+- mersenne goes wild - PYTHON INCLUDING
+
+### Post quantum
+
+- check the rest of UoV paper
 
 ### polynomials
 - finish grobner basis
