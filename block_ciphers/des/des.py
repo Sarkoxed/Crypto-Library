@@ -16,7 +16,7 @@ class DES:
         res_i = sum(bs[::-1][i] * 2**i for i in range(len(bs)))
         return res_i.to_bytes(8, "big")
 
-    def permute(self, block, p):
+    def permute(self, block, p):  # permute + resize
         res_size = len(p)
         res = [0 for _ in range(res_size)]
         for j, i in enumerate(p):
@@ -82,7 +82,7 @@ class DES:
         for r in reversed(range(self.rounds)):
             block = self._round(block, r)
 
-        block = block[32:] + block[:32]
+        block = block[32:] + block[:32]  # untwist
         block = self.permute(block, FP)
         return self.bitstring_to_bytestring(block)
 
