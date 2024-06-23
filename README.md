@@ -22,6 +22,8 @@
     - Sbox gen implementation in c
 - DES
     - des.py python implementation. 
+    - weak and semi-weak keys for des
+    - cool property with bitwise flip
 
 ### DLP
 - Collision Algos

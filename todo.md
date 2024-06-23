@@ -58,6 +58,8 @@
 - AES
     - implementation check, maybe c
     - https://toadstyle.org/cryptopals/63.txt
+- des some analysis
+- idea? whatever blowfish
 
 ### Linear Cryptoanalisys
 - Kek
