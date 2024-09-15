@@ -89,6 +89,7 @@
 ### PRNG
 - well...
 - mersenne goes wild - PYTHON INCLUDING
+- xoshiro256mulmul.py
 
 ### Post quantum
 
