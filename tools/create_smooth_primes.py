@@ -9,9 +9,7 @@ from random import randint
 
 
 def get_prime(bits):
-    #bits = randint(2, bits)
     return getPrime(bits)
-    # gmpy2.next_prime(gmpy2.mpz_urandomb(state, bits) | (1 << (bits - 1)))
 
 
 def get_smooth_prime(bits, smoothness=16):
@@ -49,6 +47,5 @@ e = 0x10001
 
 if __name__ == "__main__":
     n = int(input("n: "))
-    while True:
-        p, p_factors = get_smooth_prime(n, 18)
-    print(f"{p = }")
+    p, p_factors = get_smooth_prime(n)
+    print(f"{p, p_factors = }")
