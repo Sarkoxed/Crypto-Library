@@ -101,3 +101,6 @@
 - blake family
 - md5 fastcoll
 - rainbow
+- finish murmurhash subrepo and clean up
+- finish tau_expansion
+- finish factorization/p1
