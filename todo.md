@@ -84,6 +84,7 @@
 - ROCA
 - x509 - cringe
 - montgomery multiplication - finish
+- fibonacci heap
 
 ### PRNG
 - well...
