@@ -85,11 +85,16 @@ def timing(n=1_000_000):
 
     mont_t = 0.0
     ord_t = 0.0
+    cc_t = 0.0
+    init_t = 0.0
     for _ in tqdm(range(n)):
+        start = time() 
         t1 = randrange(0, q)
         t2 = randrange(0, q)
         a = montgomery(t1)
         b = montgomery(t2)
+        end = time()
+        init_t += end - start
 
         start = time()
         r1 = a * b
@@ -100,10 +105,17 @@ def timing(n=1_000_000):
         r2 = (t1 * t2) % q
         end = time()
         ord_t += end - start
+        
+        start = time()
         assert r1.reduce() == r2
+        end = time()
+        cc_t += end - start
 
-    print(f"Average montgomery: {mont_t / n}")
-    print(f"Average ordinary: {ord_t / n}")
+    print(f"Overall montgomery: {mont_t}")
+    print(f"Overall ordinary: {ord_t}")
+    print(f"Aftermath: {cc_t}")
+    print(f"Init: {init_t}")
+
 
 
 timing()

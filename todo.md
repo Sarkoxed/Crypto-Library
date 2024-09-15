@@ -29,7 +29,7 @@
 - ecdsa attacks
     - LLL higher bits + middle
     - Random things
-- Mongomery ladder
+- Montgomery ladder
 - get_curves_of_specific_order.py - finish this one
 - multiplication
     - endomorphism
@@ -83,6 +83,7 @@
 - math - implement some algos from my textbook. sum_of_squares doesn't work properl- Cheng's factorization method
 - ROCA
 - x509 - cringe
+- montgomery multiplication - finish
 
 ### PRNG
 - well...
