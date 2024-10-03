@@ -104,7 +104,8 @@ ecdh:
         - verify_paper - tried to verify not very trustworthy facts from paper
         - fastcoll.py - attack implementation
 
-- blake
+- blake2b
+    - blake2b.py + tests
 
 
 ### Lattice Cryptography 

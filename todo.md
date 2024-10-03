@@ -99,7 +99,7 @@
 - finish grobner basis
 
 ### HASH FUNCTIONS 
-- blake family
+- blake2s
 - md5 fastcoll
 - rainbow
 - finish murmurhash subrepo and clean up
