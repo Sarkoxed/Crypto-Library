@@ -49,6 +49,11 @@
     - kinds.md            - Writeup on Elliptic Curve kinds
     - get_curves_of_specific_order.py - just elliptic curves order properties
     - multiplication - implmentations of several techniques to boost multiplication
+- montgomery_curves
+    - montgomery.py
+        - Montgomery curves Affine implementation
+        - Montgomery diffrential scalar implementation
+        - Various optimizations for scalarmul
 - order
     - curve_order.py - computation of elliptic curve order over finite field using bsgs
 
