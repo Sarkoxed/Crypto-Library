@@ -16,13 +16,13 @@ class Montgomery:
         self.B = self.G(B)
 
     def to_weierstrass(self, P=None):
-        assert self.is_on_curve(P.x, P.y)
         a = self.B**2 * (1 - self.A**2 / 3)
         b = self.B**3 * self.A / 3 * (2 * self.A**2 / 9 - 1)
         E = EllipticCurve(self.G, [a, b])
         if P is None:
             return E
 
+        assert self.is_on_curve(P.x, P.y)
         u = self.B * (P.x + self.A / 3)
         v = self.B**2 * P.y
         return E((u, v))
