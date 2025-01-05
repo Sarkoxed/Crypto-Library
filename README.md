@@ -39,6 +39,7 @@
     - based
 
 ### Elliptic Curve Cryptography
+- hash_to_curve.py - map the arbitrary message to the point on Weierstrass curve
 - curves
     - elliptic_curves.py  - python implementation of an arbitrary elliptic curve
         - including constant time multiplication
