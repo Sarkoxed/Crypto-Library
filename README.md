@@ -40,6 +40,7 @@
 
 ### Elliptic Curve Cryptography
 - hash_to_curve.py - map the arbitrary message to the point on Weierstrass curve
+- lift_p2.py - lift the points from E(F_p) to E(Zp^2) and find the amount of solutions "fast". Read comments inside.
 - curves
     - elliptic_curves.py  - python implementation of an arbitrary elliptic curve
         - including constant time multiplication
