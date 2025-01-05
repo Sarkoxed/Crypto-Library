@@ -6,6 +6,7 @@ import itertools
 # The following three functions are probably not finding the "order" but the amount of the solutions
 # It defintely does not account for solutions of the form (a : b : 0), with both a, b nonzero
 # but I haven't touched (grass) elliptic curves over the rings properly yet
+# UPD: yeah it's probably totally wrong since I was not taking into account (a : b: k * p) etc. heh
 
 
 def brute_order_mod_prime_power(a, b, p, e):
@@ -38,7 +39,9 @@ def find_order_mod_prime_2(a, b, p, e=2):
     x = P.gens()[0]
 
     # keep track of used special values
-    new_order = 1
+
+    # first is point at infinity
+    new_order = 1 # (k * p : a : 0) -> p + (p - 1) = 2 * p - 1 <- dunno
     used_vals = 1
 
     y0_encountered = []
