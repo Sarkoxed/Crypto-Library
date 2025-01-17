@@ -85,6 +85,7 @@
         - Lattice Based attack(lower bits)
 ecdh:
     - tripartite Diffie-Hellman
+    - SIDH - supersingular isogeny Diffie-Hellman
 
 - encryption schemes
     - Massey-Omura cs
