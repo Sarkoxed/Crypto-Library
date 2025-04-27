@@ -305,15 +305,12 @@ Collection of some interesting probability distributions
 - cvc5
     - cvc5 ff use case
     - ecc solver(lol)
-- Other - some thoughts, theories and algorithms of my own implementation
-    - Combinatorics
-    - Math
 - encoders
     - base64
     - circom witness
     - circom r1cs
     - openssh private key
-
+- pade_approximation.py   - Pade' M/N approximation of a function
 - binary_search.py        - Binary Search
 - create_smooth_prime.py  - Smooth Primes Creation
 - Interval Union          - 
@@ -324,3 +321,6 @@ Collection of some interesting probability distributions
 - use of cado-nfs example
 - use of pari library
 - x509cert_help.py - cert generation in python
+- Other - some thoughts, theories and algorithms of my own implementation
+    - Combinatorics
+    - Math
