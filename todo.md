@@ -39,6 +39,7 @@
     - tau expansion
     - windowed
     - check the book
+- elliptic curve cycles
 
 ### Lattice Cryptography
 - ntru signature complete
