@@ -312,6 +312,7 @@ Collection of some interesting probability distributions
     - circom witness
     - circom r1cs
     - openssh private key
+    - pkcs1.5
 - pade_approximation.py   - Pade' M/N approximation of a function
 - binary_search.py        - Binary Search
 - create_smooth_prime.py  - Smooth Primes Creation

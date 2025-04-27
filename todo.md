@@ -90,6 +90,7 @@
 - fibonacci heap
 - tonelli tests + check 
 - B-smooth primes generation
+- encoders/pkcs1.5 tests
 
 ### Algebraic tools
 - Variety analysis
