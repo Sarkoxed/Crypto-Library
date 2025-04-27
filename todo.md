@@ -24,6 +24,7 @@
 
 ### Elliptic Curves
 - elliptic curves over the rings
+- elliptic curves over p^2
 - anomalous curves generation
 - Babai
 - ecdsa attacks
@@ -79,12 +80,19 @@
 ### TOOLS
 - check the pseudoprime gen file
 - carmichael numbers file is ridiculous
-- polynomial roots modulo prime power debug or test or smth
 - math - implement some algos from my textbook. sum_of_squares doesn't work properl- Cheng's factorization method
 - ROCA
 - x509 - cringe
 - montgomery multiplication - finish
 - fibonacci heap
+- tonelli tests + check 
+
+### Algebraic tools
+- Variety analysis
+
+### PT tools
+- Statistics
+- Any distribution todos
 
 ### PRNG
 - well...
@@ -105,3 +113,4 @@
 - finish murmurhash subrepo and clean up
 - finish tau_expansion
 - finish factorization/p1
+- argon
