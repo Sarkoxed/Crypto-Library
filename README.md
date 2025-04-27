@@ -128,7 +128,9 @@ ecdh:
 
 - blake2b
     - blake2b.py + tests
-
+- crc32 
+    - crc32.py CRC32 implementation
+    - crc32_attack.py - mitm+algebraic+linear
 
 ## Lattice Cryptography 
 - LLL
