@@ -89,6 +89,7 @@
 - montgomery multiplication - finish
 - fibonacci heap
 - tonelli tests + check 
+- B-smooth primes generation
 
 ### Algebraic tools
 - Variety analysis
