@@ -21,6 +21,7 @@
 - Gaussian Wiener
 - openssl + asn - cringe now
 - ROCA
+- random bits recovery
 
 ### Elliptic Curves
 - elliptic curves over the rings
@@ -105,3 +106,8 @@
 - finish murmurhash subrepo and clean up
 - finish tau_expansion
 - finish factorization/p1
+- argon
+
+### Signatures
+- ring signatures
+- threshold ones(BLS)
