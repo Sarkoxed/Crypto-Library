@@ -73,6 +73,18 @@
     - Smart attack but mod p^2
     - Augmented addition attack
     - Fast multiplication using anomalous curves
+- Isogenies
+    - `isogeny_evaluation.py`
+        - `get_velu_isogeny` - get an isogeny based on kernel, using Velu' isogeny
+        - `get_isogeny_of_smooth_order` and `evaluate_isogeny_of_smooth_order` - fast isogeny computation
+    - `isogenies.py`
+        - `get_all_isogenous_curves` of degree `l` function 
+        - `get_all_isognies` of degree `l` function
+    - `isogeny_graph.py`
+        - `brute_graph` - Get a complete isogny graph. DFS
+        - `successive_graph` - Compute an isogeny graph up to some depth
+        and draw them
+
 - MOV
     - weil_pairing.py - weil pairing python implementation
     - MOV algorithm implementation in python using weil pairing

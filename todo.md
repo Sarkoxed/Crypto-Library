@@ -3,6 +3,7 @@
 - chacha?
 - sage compilation 
 - cvc5 compilation
+- properly reformat README.md
 
 ### Algebra and Number Theory
 - Symmetric group operations in cpp? (why?)
