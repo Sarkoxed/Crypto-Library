@@ -31,7 +31,8 @@ def HenselLift(P, p, prec):
     return Ep((x_lift, y_lift))
 
 
-def SmartAttack(P, Q, p, prec):
+# scale in case the order of the point is scale * p. Happens for example mod p^r
+def SmartAttack(P, Q, p, prec, scale = 1):
     E = P.curve()
     Eqq = E.change_ring(QQ)
     Eqp = Eqq.change_ring(Qp(p, prec))
@@ -39,8 +40,8 @@ def SmartAttack(P, Q, p, prec):
     P_Qp = HenselLift(P, p, prec)
     Q_Qp = HenselLift(Q, p, prec)
 
-    p_times_P = p * P_Qp
-    p_times_Q = p * Q_Qp
+    p_times_P = scale * p * P_Qp
+    p_times_Q = scale * p * Q_Qp
 
     x_P, y_P = p_times_P.xy()
     x_Q, y_Q = p_times_Q.xy()

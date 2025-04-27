@@ -162,6 +162,7 @@ def recurrence_gen_based(
         final_poly_1 = P(
             sum(b * gc * k1**j for j, b in zip(range(n + 1), bx)) - k2 * gc
         )
+        print(final_poly_1.degree())
         final_poly_2 = P(
             sum(b * gc * k2**j for j, b in zip(range(n + 1), bx)) - k3 * gc
         )
@@ -315,6 +316,7 @@ if __name__ == "__main__":
 #    print()
 #
 #    print("Polynomial congruence n + 4 gcd:")
+#    n = 82
 #    m = n + 4
 #    ms = [Random().randint(0, q) for _ in range(m)]
 #    print(timing(recurrence_gen_based)(pk, sk, ms, n, True))

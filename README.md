@@ -1,9 +1,9 @@
-## My crypto library contents
+# My crypto library contents
 
-### Based
+## Based
 - Bacon cipher
 
-### Block Ciphers
+## Block Ciphers
 - AES
     - CBC Mode
         - Padding Oracle attack implementation
@@ -25,7 +25,7 @@
     - weak and semi-weak keys for des
     - cool property with bitwise flip
 
-### DLP
+## DLP
 - Collision Algos
     - Baby-Step-Giant-Step implementation in python
     - Birthday Paradox based collision algorithm implementation in python
@@ -38,7 +38,9 @@
 - Pohlig-Hellman
     - based
 
-### Elliptic Curve Cryptography
+## Elliptic Curve Cryptography
+- hash_to_curve.py - map the arbitrary message to the point on Weierstrass curve
+- lift_p2.py - lift the points from E(F_p) to E(Zp^2) and find the amount of solutions "fast". Read comments inside.
 - curves
     - elliptic_curves.py  - python implementation of an arbitrary elliptic curve
         - including constant time multiplication
@@ -49,6 +51,11 @@
     - kinds.md            - Writeup on Elliptic Curve kinds
     - get_curves_of_specific_order.py - just elliptic curves order properties
     - multiplication - implmentations of several techniques to boost multiplication
+- montgomery_curves
+    - montgomery.py
+        - Montgomery curves Affine implementation
+        - Montgomery diffrential scalar implementation
+        - Various optimizations for scalarmul
 - order
     - curve_order.py - computation of elliptic curve order over finite field using bsgs
 
@@ -66,6 +73,18 @@
     - Smart attack but mod p^2
     - Augmented addition attack
     - Fast multiplication using anomalous curves
+- Isogenies
+    - `isogeny_evaluation.py`
+        - `get_velu_isogeny` - get an isogeny based on kernel, using Velu' isogeny
+        - `get_isogeny_of_smooth_order` and `evaluate_isogeny_of_smooth_order` - fast isogeny computation
+    - `isogenies.py`
+        - `get_all_isogenous_curves` of degree `l` function 
+        - `get_all_isognies` of degree `l` function
+    - `isogeny_graph.py`
+        - `brute_graph` - Get a complete isogny graph. DFS
+        - `successive_graph` - Compute an isogeny graph up to some depth
+        and draw them
+
 - MOV
     - weil_pairing.py - weil pairing python implementation
     - MOV algorithm implementation in python using weil pairing
@@ -78,6 +97,7 @@
         - Lattice Based attack(lower bits)
 ecdh:
     - tripartite Diffie-Hellman
+    - SIDH - supersingular isogeny Diffie-Hellman
 
 - encryption schemes
     - Massey-Omura cs
@@ -85,8 +105,10 @@ ecdh:
     - ECIES
     - KMOV - RSA like encryption
     - ID based encryption
+    - malware one-sided DH
+- common curves
 
-### HASH Functions
+## HASH Functions
 - sha1
     - sha1 implentation in python(stolen)
     - length_extension.py - le attack on sha1
@@ -108,7 +130,7 @@ ecdh:
     - blake2b.py + tests
 
 
-### Lattice Cryptography 
+## Lattice Cryptography 
 - LLL
     - python
         - LLL algorithm implementation in python
@@ -143,24 +165,24 @@ ecdh:
 - LWE
     - not so much yet
 
-### Linear Cryptoanalisys
+## Linear Cryptoanalisys
 - TODO
 
-### Permutation Ciphers
+## Permutation Ciphers
 - Rail Fence cipher
 - Symmetric_Group
     - Sqrt in S(n)
 
-### Post Quantum
+## Post Quantum
 - UoV - signature scheme
 
-### PRNG 
+## PRNG 
 - xorshift128p - truncated xorshift128p analysis
     - TODO
 
 - xoshiro128++, 256++
 
-### RSA 
+## RSA 
 - Full/Partial(brutable) knowledge of d
     - python + cpp implementation
 
@@ -172,15 +194,14 @@ ecdh:
     - wiener.py
 - Known bits of p
 
-### Simple substitution
+## Simple substitution
 - Shift cipher + analysis
 - Vigenere Cipher + analysis
 - frequencies
     - bigrams
     - singles
 
-### Stream Ciphers
-
+## Stream Ciphers
 - RC4
     - oracle implemenation in python
     - RC4 cipher implementation in python
@@ -199,7 +220,7 @@ ecdh:
 - ChaCha20
     - ChaCha20 implementation in python
 
-### ZKP
+## ZKP
 - KZG
     - KZG implementation from RealWorldCTF2023
 - coolstuff
@@ -215,26 +236,46 @@ ecdh:
     - zcash_protocol implementation
     - bug implmentation
 
-### TOOLS
+## ALGEBRAIC TOOLS
 
-- Algebraic Things
-    - polynomials_mod_prime_power.py -  Finding roots of a polynomial modulo prime power
-    - polynomial_ring_analysis.py - Ring structure of polynomial quotient ring
+### Polynomials
+   - polynomial_ring_analysis.py - Ring structure of polynomial quotient ring
         - Order of a multplicative subgroup
         - All the possible orders in this group
         - Ring factorization
         - TODO: find the number of elements in the group s.t. their order is K | minimal_power
-    - matrices
-        - Get jordan General Decomposition of a matrix over a finite field
-        - Find the matrix order with help of previous thing
-        - lfsr analysis with help of matrix order
-    - Polynomials
-        - Groebner basis implentation
-        - symmetric_polynomials
-            - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
-    - annihilators.py - Finding annihilators of boolean function
+   - Groebner basis implentation
+   - symmetric_polynomials
+       - symmetric_polynomial_decomposition.py - decompose any multivariate symmetric polynomial using symmetric_polynomial basis.
+   - hensels_lifting
+       - univariate_lifting.py - Lift the root mod $p^e$ to $p^{e + 1}$
+       - find_roots_mod_prime_power.py - Find all the polynomial roots mod $p^e$
+
+### Matrices 
+
+    - Get Jordan General Decomposition of a matrix over a finite field
+    - Find the matrix order with help of previous thing
+    - LFSR analysis with help of matrix order
+
+### Boolean
+   - annihilators.py - Find annihilators of a boolean function
+
+### Varieties
+
+## Probablity Theory Tools
+
+## Distributions 
+
+Collection of some interesting probability distributions
+
+- any_distribution.py - Produce an arbitrary distribution out of a uniform one
+
+## Statistics
+
+**UNDER CONSTRUCTION**
 
 
+## TOOLS
 - Factorization methods
     - 4p1factorization
         - Cheng's method - TODO
@@ -246,6 +287,8 @@ ecdh:
     - Pollard P Factorization
     - Pollard Rho Factorization
     - Stackoverflow
+- Tonelli
+    - tonelli algorithm to find square roots
 - Inverse modulo
 - Primeness check + gen
     - is_prime
@@ -262,15 +305,12 @@ ecdh:
 - cvc5
     - cvc5 ff use case
     - ecc solver(lol)
-- Other - some thoughts, theories and algorithms of my own implementation
-    - Combinatorics
-    - Math
 - encoders
     - base64
     - circom witness
     - circom r1cs
     - openssh private key
-
+- pade_approximation.py   - Pade' M/N approximation of a function
 - binary_search.py        - Binary Search
 - create_smooth_prime.py  - Smooth Primes Creation
 - Interval Union          - 
@@ -281,3 +321,6 @@ ecdh:
 - use of cado-nfs example
 - use of pari library
 - x509cert_help.py - cert generation in python
+- Other - some thoughts, theories and algorithms of my own implementation
+    - Combinatorics
+    - Math

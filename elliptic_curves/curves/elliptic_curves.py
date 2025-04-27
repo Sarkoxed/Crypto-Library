@@ -212,7 +212,8 @@ class ECPoint:
         return q
 
     __rmul__ = __mul__
-
+    
+    # aka Montgomery algo
     def constant_time_mul(self, n: int):
         n = [int(x) for x in bin(n)[2:][::-1]]
         R0, R1 = self, self + self
