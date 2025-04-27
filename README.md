@@ -93,6 +93,7 @@ ecdh:
     - ECIES
     - KMOV - RSA like encryption
     - ID based encryption
+    - malware one-sided DH
 - common curves
 
 ## HASH Functions
@@ -239,7 +240,8 @@ ecdh:
        - find_roots_mod_prime_power.py - Find all the polynomial roots mod $p^e$
 
 ### Matrices 
-    - Get jordan General Decomposition of a matrix over a finite field
+
+    - Get Jordan General Decomposition of a matrix over a finite field
     - Find the matrix order with help of previous thing
     - LFSR analysis with help of matrix order
 
