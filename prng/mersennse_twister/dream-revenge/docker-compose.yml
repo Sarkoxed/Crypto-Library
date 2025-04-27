@@ -1,0 +1,7 @@
+version: '2.4'
+services:
+  chall:
+    build: .
+    ports:
+      - 5004:5000
+    privileged: true

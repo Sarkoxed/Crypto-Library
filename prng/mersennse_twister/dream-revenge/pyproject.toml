@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "dream-revenge"
+version = "0.1.0"
+description = ""
+authors = ["Sarkoxed <sarkoxed2013@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+z3-solver = "^4.13.0.0"
+pwntools = "^4.12.0"
+pycryptodome = "^3.20.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
